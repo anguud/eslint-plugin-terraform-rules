@@ -1,18 +1,20 @@
 import { myRule } from "./rules/my-prefix/my-rule/_rule";
 
-export const rules = {
-  "my-prefix/my-rule": myRule,
-};
-
-export const configs = {
-  recommended: {
-    extends: ["plugin:starter/my-prefix"],
-    plugins: ["starter"],
+module.exports = {
+  rules: {
+    "my-prefix/my-rule": { create: myRule },
+    // new rules goes here
   },
-  ["my-prefix"]: {
-    plugins: ["starter"],
-    rules: {
-      "starter/my-prefix/my-rule": ["error"],
+  configs: {
+    recommended: {
+      extends: ["plugin:starter/my-prefix"],
+      plugins: ["terraform-rules"],
+    },
+    ["my-prefix"]: {
+      plugins: ["terraform-rules"],
+      rules: {
+        "terraform-rules/my-prefix/my-rule": ["error"],
+      },
     },
   },
 };

@@ -58,6 +58,13 @@
       "parserOptions": {
         "project": ["./tsconfig.json"]
       }
+    },
+    {
+      "files": [
+        "*.tf"
+      ],
+      "parser": "tf-parser",
+      "parserOptions": {}
     }
   ]
 }

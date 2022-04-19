@@ -2,6 +2,8 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
 
+import { resolveDocsRoute } from "../../../utils/resolve-docs-route";
+
 /**
  * Progress
  *  [X] Detection
@@ -19,21 +21,20 @@ export enum MessageIds {
   FIX_VARIABLE = "fix-variable",
 }
 
-const createRule = RuleCreator;
-
+const createRule = RuleCreator(resolveDocsRoute);
 /**
  * Detects and reports if any expressions assign unsafe values to known vanilla
  * XSS injection sinks.
  */
-export const myRule = createRule<MyRuleOptions, MessageIds>({
-  name: "fs",
+export const myRule = createRule({
+  name: "attempt",
   defaultOptions: [{ variableName: "helloWorld" }],
   meta: {
     type: "suggestion",
     fixable: "code",
     messages: {
-      [MessageIds.FOUND_VARIABLE]: `Variable "{{ variableName }}" is not named correctly.`,
-      [MessageIds.FIX_VARIABLE]: `Rename "{{ orgName }}" to "{{ newName }}"`,
+      "found-variable": `Variable "{{ variableName }}" is not named correctly.`,
+      "fix-variable": `Rename "{{ orgName }}" to "{{ newName }}"`,
     },
     docs: {
       description: "This is the first test rule",
@@ -50,24 +51,24 @@ export const myRule = createRule<MyRuleOptions, MessageIds>({
       },
     ],
   },
-  create: (context, [{ variableName }]) => {
+  create: (context) => {
     return {
-      BlockStatement: (node) => {
+      ResourceBlockStatement: (node) => {
         context.report({
           node: node,
           messageId: MessageIds.FOUND_VARIABLE,
           data: {
-            variableName: node.type,
+            variableName: node,
           },
           suggest: [
             {
               messageId: MessageIds.FIX_VARIABLE,
               data: {
-                orgName: node.type,
-                newName: variableName,
+                orgName: node,
+                newName: "hej fra blokken",
               },
               fix(fixer) {
-                return fixer.replaceText(node, variableName);
+                return fixer.replaceText(node, "hejFraBlokken");
               },
             },
           ],

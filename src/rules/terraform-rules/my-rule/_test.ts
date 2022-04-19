@@ -1,12 +1,21 @@
-"use strict";
+import path from "path";
 
 import * as ES from "eslint";
 
-import rule = require("./_rule");
+import { myRule } from "./_rule";
 
-const ruleTester = new ES.RuleTester();
+const ruleTester = new ES.RuleTester({
+  parser: require.resolve("tf-parser"),
+  parserOptions: {
+    project: "./tsconfig.json",
+    tsconfigRootDir: path.resolve(__dirname, "..", "..", "..", ".."),
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+});
 
-ruleTester.run("my-rule", rule, {
+ruleTester.run("my-rule", myRule, {
   valid: [
     {
       code: "var foo = true",
@@ -23,15 +32,6 @@ ruleTester.run("my-rule", rule, {
               min_tls_version = "TLS_1_0"
           }`,
       errors: [{ message: "Unexpected invalid variable." }],
-    },
-    {
-      code: `resource "google_compute_ssl_policy" "vulnerable_example" { 
-              helloWorld = "something"
-              name = "production-ssl-policy"
-              profile = "MODERN"
-              min_tls_version = "TLS_1_0"
-          }`,
-      errors: [{ message: /^Unexpected.+variable/ }],
     },
   ],
 });

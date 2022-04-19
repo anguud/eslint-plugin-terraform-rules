@@ -1,3 +1,5 @@
+## CHANGE THIS FILE
+
 # No XSS (no-xss/browser)
 
 This rule aims to detect potential DOM-based Cross-Site Scripting (XSS) vulnerabilities, caused by unsafe usage of native JavaScript API's that manipulates the
