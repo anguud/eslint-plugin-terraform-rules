@@ -1,4 +1,4 @@
-import { myRule } from "./rules/my-prefix/my-rule/_rule";
+import { myRule } from "./rules/terraform-rules/my-rule/_rule";
 
 module.exports = {
   rules: {
