@@ -21,39 +21,91 @@ export enum MessageIds {
   FIX_VARIABLE = "fix-variable",
 }
 
-const createRule = RuleCreator(resolveDocsRoute);
-/**
- * Detects and reports if any expressions assign unsafe values to known vanilla
- * XSS injection sinks.
- */
-export const myRule = createRule({
-  name: "attempt",
-  defaultOptions: [{ variableName: "helloWorld" }],
+// const createRule = RuleCreator(resolveDocsRoute);
+// /**
+//  * Detects and reports if any expressions assign unsafe values to known vanilla
+//  * XSS injection sinks.
+//  */
+// export const myRule = createRule({
+//   name: "attempt",
+//   defaultOptions: [{ variableName: "helloWorld" }],
+//   meta: {
+//     type: "suggestion",
+//     fixable: "code",
+//     messages: {
+//       "found-variable": `Variable "{{ variableName }}" is not named correctly.`,
+//       "fix-variable": `Rename "{{ orgName }}" to "{{ newName }}"`,
+//     },
+//     docs: {
+//       description: "This is the first test rule",
+//       recommended: "error",
+//       suggestion: true,
+//     },
+//     hasSuggestions: true,
+//     schema: [
+//       {
+//         type: "object",
+//         items: {
+//           variableName: { type: "string", required: true },
+//         },
+//       },
+//     ],
+//   },
+//   create: (context) => {
+//     return {
+//       ResourceBlockStatement: (node) => {
+//         context.report({
+//           node: node,
+//           messageId: MessageIds.FOUND_VARIABLE,
+//           data: {
+//             variableName: node,
+//           },
+//           suggest: [
+//             {
+//               messageId: MessageIds.FIX_VARIABLE,
+//               data: {
+//                 orgName: node,
+//                 newName: "hej fra blokken",
+//               },
+//               fix(fixer) {
+//                 return fixer.replaceText(node, "hejFraBlokken");
+//               },
+//             },
+//           ],
+//         });
+//       },
+//     };
+//   },
+// });
+
+/** @type {import('eslint').Rule.RuleModule} */
+export const myRule = {
   meta: {
     type: "suggestion",
-    fixable: "code",
-    messages: {
-      "found-variable": `Variable "{{ variableName }}" is not named correctly.`,
-      "fix-variable": `Rename "{{ orgName }}" to "{{ newName }}"`,
-    },
+
     docs: {
-      description: "This is the first test rule",
-      recommended: "error",
-      suggestion: true,
+      description: "disallow unnecessary semicolons",
+      category: "Possible Errors",
+      recommended: true,
+      url: "https://eslint.org/docs/rules/no-extra-semi",
     },
-    hasSuggestions: true,
-    schema: [
-      {
-        type: "object",
-        items: {
-          variableName: { type: "string", required: true },
-        },
-      },
-    ],
+    fixable: "code",
+    schema: [], // no options
   },
-  create: (context) => {
+  create: function (context: {
+    report: (arg0: {
+      node: any;
+      messageId: MessageIds;
+      data: { variableName: any };
+      suggest: {
+        messageId: MessageIds;
+        data: { orgName: any; newName: string };
+        fix(fixer: any): any;
+      }[];
+    }) => void;
+  }) {
     return {
-      ResourceBlockStatement: (node) => {
+      ResourceBlockStatement: (node: any) => {
         context.report({
           node: node,
           messageId: MessageIds.FOUND_VARIABLE,
@@ -67,7 +119,7 @@ export const myRule = createRule({
                 orgName: node,
                 newName: "hej fra blokken",
               },
-              fix(fixer) {
+              fix(fixer: { replaceText: (arg0: any, arg1: string) => any }) {
                 return fixer.replaceText(node, "hejFraBlokken");
               },
             },
@@ -76,4 +128,4 @@ export const myRule = createRule({
       },
     };
   },
-});
+};

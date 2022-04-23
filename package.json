@@ -38,11 +38,11 @@
     "eslint-plugin-comment-length": "^0.5.1",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-starter": "link:./",
+    "eslint-plugin-starter": "file:./",
     "jest": "^27.5.1",
     "prettier": "^2.6.0",
     "typescript": "^4.6.2",
-    "tf-parser": "link:../Terraform-ESLint-parser/parserThesis/src/Parser.js" 
+    "tf-parser": "file:../Terraform-ESLint-parser/parserTS" 
   },
   "peerDependencies": {
     "eslint": ">=8.0.0"
