@@ -42,7 +42,7 @@
     "jest": "^27.5.1",
     "prettier": "^2.6.0",
     "typescript": "^4.6.2",
-    "tf-parser": "file:../Terraform-ESLint-parser/parserTS" 
+    "tf-parser": "file:../Terraform-ESLint-parser/parserTS"
   },
   "peerDependencies": {
     "eslint": ">=8.0.0"
