@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "Node",
     "downlevelIteration": true,
     "resolveJsonModule": true,
