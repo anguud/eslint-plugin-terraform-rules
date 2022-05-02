@@ -13,15 +13,11 @@
   "parser": "tf-parser",
   "parserOptions": {},
   "rules": {
-<<<<<<< HEAD
-    "test-rule": ["error"]
-=======
     "terraform-rules/*": "error",
     "terraform-rules/my-rule": "error",
     "terraform-rules/encrypted_Connections": "error",
     "terraform-rules/dummy": "error",
     "terraform-rules/test-rule": "error", 
     "terraform-rules/testRule2": "error"
->>>>>>> ee711ca44115fae8741d88cde7accf8793487954
   }
 }
