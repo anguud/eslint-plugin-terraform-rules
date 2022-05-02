@@ -22,6 +22,8 @@
   "parser": "tf-parser",
   "parserOptions": {},
   "rules": {
+
+    "test-rule": ["error"],
     "terraform-rules/my-rule": "error",
     "terraform-rules/encrypted_Connections": "error",
     "terraform-rules/dummy": "error", 
