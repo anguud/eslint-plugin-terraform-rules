@@ -2,11 +2,9 @@
   "root": true,
   "overrides": [
     {
-      "files": [
-        "*.tf"
-      ],
-      "parser": "tf-parser",
-      "rules": {
+      "files": ["*.tf"], // Specify the extension or pattern you want to parse as JSON.
+      "parser": "tf-parser", // Set this parser.
+    "rules": {
         "terraform-rules/my-rule": "error",
         "terraform-rules/encrypted_Connections": "error",
         "terraform-rules/dummy": "error",
@@ -18,14 +16,5 @@
   ],
   "plugins": [
     "terraform-rules"
-  ],
-  "parser": "tf-parser",
-  "parserOptions": {},
-  "rules": {
-    "test-rule": ["error"],
-    "terraform-rules/my-rule": "error",
-    "terraform-rules/encrypted_Connections": "error",
-    "terraform-rules/dummy": "error", 
-    "terraform-rules/testRule2": "error"
-  }
+  ]
 }

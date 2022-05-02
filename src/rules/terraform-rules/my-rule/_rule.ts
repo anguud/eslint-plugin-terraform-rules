@@ -82,13 +82,17 @@ export enum MessageIds {
 export const myRule = {
   meta: {
     type: "suggestion",
-
+    messages: {
+      [MessageIds.FOUND_VARIABLE]: `Variable "{{ blocklable1 }}" "{{ blocklable2 }}" is not named correctly.`,
+      [MessageIds.FIX_VARIABLE]: `Rename "{{ orgName }}" to "{{ newName }}"`,
+    },
     docs: {
       description: "disallow unnecessary semicolons",
       category: "Possible Errors",
       recommended: true,
       url: "https://eslint.org/docs/rules/no-extra-semi",
     },
+    hasSuggestions: true,
     fixable: "code",
     schema: [], // no options
   },
@@ -96,7 +100,7 @@ export const myRule = {
     report: (arg0: {
       node: any;
       messageId: MessageIds;
-      data: { variableName: any };
+      data: {  blocklable1: any , blocklable2: any};
       suggest: {
         messageId: MessageIds;
         data: { orgName: any; newName: string };
@@ -110,7 +114,8 @@ export const myRule = {
           node: node,
           messageId: MessageIds.FOUND_VARIABLE,
           data: {
-            variableName: node,
+            blocklable1: node.blocklabel1,
+            blocklable2: node.blocklabel2,
           },
           suggest: [
             {

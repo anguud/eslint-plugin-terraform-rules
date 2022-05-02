@@ -24,6 +24,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
+    "@humanwhocodes/momoa": "^2.0.4",
     "@swc-node/jest": "^1.4.3",
     "@types/eslint": "^8.4.1",
     "@types/jest": "^27.4.1",
@@ -38,9 +39,10 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-terraform-rules": "file:./",
     "jest": "^27.5.1",
+    "jsonc-eslint-parser": "^2.1.0",
     "prettier": "^2.6.0",
-    "typescript": "^4.6.2",
-    "tf-parser": "file:../Terraform-ESLint-parser/parserTS"
+    "tf-parser": "file:../Terraform-ESLint-parser/parserTS",
+    "typescript": "^4.6.2"
   },
   "peerDependencies": {
     "eslint": ">=8.0.0"
