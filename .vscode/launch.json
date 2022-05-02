@@ -41,7 +41,7 @@
       "smartStep": true,
       "args": [
         "eslint:files",
-        "./dummy/package.json"
+        "./src/test.ft"
       ]
     }
   ]

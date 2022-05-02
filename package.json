@@ -6,7 +6,6 @@
   "files": [
     "lib/**"
   ],
-  "type": "module",
   "license": "MIT",
   "keywords": [
     "eslint",
@@ -14,7 +13,8 @@
     "security"
   ],
   "scripts": {
-    "build": "rm -rf ./lib && tsc --project ./tsconfig.build.json",
+    "buildNew": "rm -rf ./lib && mkdir ./lib && tsc --project ./tsconfig.build.json",
+    "buildOld": "rm -rf ./lib && tsc --project ./tsconfig.build.json",
     "watch": "yarn build --watch",
     "eslint:files": "eslint",
     "lint": "eslint src/test.tf --rulesdir src/rules/terraform-rules",
@@ -36,7 +36,7 @@
     "eslint-plugin-comment-length": "^0.5.1",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-starter": "file:./",
+    "eslint-plugin-terraform-rules": "file:./",
     "jest": "^27.5.1",
     "prettier": "^2.6.0",
     "typescript": "^4.6.2",
@@ -47,6 +47,8 @@
   },
   "dependencies": {
     "@typescript-eslint/utils": "^5.15.0",
-    "enhanced-resolve": "^5.9.2"
+    "enhanced-resolve": "^5.9.2",
+    "eslint-plugin-terraform-rules": "file:./",
+    "tf-parser": "file:../Terraform-ESLint-parser/parserTS"
   }
 }
