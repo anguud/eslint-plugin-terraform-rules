@@ -15,7 +15,7 @@ module.exports = {
     "encrypted_Connections": require("./rules/terraform-rules/Encrypted_Connections/_rule"),
     "dummy": require("./rules/terraform-rules/dummy/_rule"),
     "test-rule": require("./rules/terraform-rules/test-rule/test-rule"),
-    "testRule2": require("./rules/terraform-rules/test-rule2/testRule2")
+    "testRule2": require("./rules/terraform-rules/test-rule2/test-rule2")
     // new rules goes here
 }
 }; 

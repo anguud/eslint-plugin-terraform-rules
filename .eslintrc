@@ -4,7 +4,16 @@
     {
       "files": [
         "*.tf"
-      ]
+      ],
+      "parser": "tf-parser",
+      "rules": {
+        "terraform-rules/my-rule": "error",
+        "terraform-rules/encrypted_Connections": "error",
+        "terraform-rules/dummy": "error",
+        "terraform-rules/test-rule": "error", 
+        "terraform-rules/testRule2": "error"
+      }
+
     }
   ],
   "plugins": [
@@ -13,11 +22,9 @@
   "parser": "tf-parser",
   "parserOptions": {},
   "rules": {
-    "terraform-rules/*": "error",
     "terraform-rules/my-rule": "error",
     "terraform-rules/encrypted_Connections": "error",
-    "terraform-rules/dummy": "error",
-    "terraform-rules/test-rule": "error", 
+    "terraform-rules/dummy": "error", 
     "terraform-rules/testRule2": "error"
   }
 }
