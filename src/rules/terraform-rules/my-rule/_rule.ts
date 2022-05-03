@@ -82,13 +82,17 @@ export enum MessageIds {
 export const myRule = {
   meta: {
     type: "suggestion",
-
+    messages: {
+      [MessageIds.FOUND_VARIABLE]: `Blockabels "{{ blocklabel1 }}" and "{{ blocklabel2 }}" are not named correctly.`,
+      [MessageIds.FIX_VARIABLE]: `Rename "{{ orgName }}" to "{{ newName }}"`,
+    },
     docs: {
       description: "disallow unnecessary semicolons",
       category: "Possible Errors",
       recommended: true,
       url: "https://eslint.org/docs/rules/no-extra-semi",
     },
+    hasSuggestions: true,
     fixable: "code",
     schema: [], // no options
   },
@@ -96,7 +100,7 @@ export const myRule = {
     report: (arg0: {
       node: any;
       messageId: MessageIds;
-      data: { variableName: any };
+      data: {  blocklabel1: any , blocklabel2: any};
       suggest: {
         messageId: MessageIds;
         data: { orgName: any; newName: string };
@@ -110,17 +114,18 @@ export const myRule = {
           node: node,
           messageId: MessageIds.FOUND_VARIABLE,
           data: {
-            variableName: node,
+            blocklabel1: node.blocklabel.value,
+            blocklabel2: node.blocklabel2.value,
           },
           suggest: [
             {
               messageId: MessageIds.FIX_VARIABLE,
               data: {
-                orgName: node,
-                newName: "hej fra blokken",
+                orgName: node.blocklabel.value,
+                newName: "hejFraBlokken",
               },
               fix(fixer: { replaceText: (arg0: any, arg1: string) => any }) {
-                return fixer.replaceText(node, "hejFraBlokken");
+                return fixer.replaceText(node.blocklabel, "hejFraBlokken");
               },
             },
           ],
