@@ -1,7 +1,6 @@
-import { ESLintUtils } from '@typescript-eslint/utils'
-import { createRule } from 
+import { createRule } from 'kfesf'
 
-export const rule = createRule({
+export const encryptedConnections = createRule({
     create(context: any) {
         return {
             AssignmentExpression(node: any) {

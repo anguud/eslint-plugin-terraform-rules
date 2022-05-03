@@ -1,7 +1,6 @@
-import { isStringLiteral } from "typescript";
 import {createRule} from
 
-export const rule = createRule({
+export const noPublicAccess = createRule({
     create (context : any) {
         return {
             AssignmentExpression(node : any){
