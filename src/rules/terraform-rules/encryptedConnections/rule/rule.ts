@@ -1,9 +1,8 @@
 import { ESLintUtils } from '@typescript-eslint/utils'
 import { createRule } from 
 
-
 export const rule = createRule({
-    create(context) {
+    create(context: any) {
         return {
             AssignmentExpression(node: any) {
                 if (node.operator === '=') {

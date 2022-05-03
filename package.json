@@ -13,8 +13,7 @@
     "security"
   ],
   "scripts": {
-    "buildNew": "rm -rf ./lib && mkdir ./lib && tsc --project ./tsconfig.build.json",
-    "buildOld": "rm -rf ./lib && tsc --project ./tsconfig.build.json",
+    "build": "rm -rf ./lib && tsc --project ./tsconfig.build.json",
     "watch": "yarn build --watch",
     "eslint:files": "eslint",
     "lint": "eslint src/test.tf --rulesdir src/rules/terraform-rules",

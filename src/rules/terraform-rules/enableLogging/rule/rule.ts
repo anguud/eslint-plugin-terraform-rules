@@ -1,8 +1,7 @@
-import { isStringLiteral } from "typescript";
 import {createRule} from 
 
-export const rule = createRule({
-    create (context) {
+export const enableLog = createRule({
+    create (context: any) {
         return {
             AssignmentExpression(node : any){
                 if (node.operator === '='){
