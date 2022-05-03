@@ -1,8 +1,8 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
-import rule from '../rule/rule';
+import { rule } from '../rule/rule';
 
 const ruleTester = new ESLintUtils.RuleTester( {
-    parser: '../src/tf-parser'
+    parser: 'tf-parser'
 });
 
 ruleTester.run('noPublicAccess',rule,{
