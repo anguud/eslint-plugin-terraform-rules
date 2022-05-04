@@ -4,26 +4,33 @@ import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
 
 const createRule = RuleCreator(resolveDocsRoute);
 
+//TODO: include or not include "default"/not specified. 
 
 export const encryptedConnections = createRule({
     create(context: any) {
         let profile: string;
         let version: string;
+        let checkedp: boolean;
+        let checkedv: boolean;
         return {
             AssignmentExpression(node: any) {
                 if (node.operator === '=') {
                     if (node.parent.blocklabel.value == "google_compute_ssl_policy"){
                         if (node.left.name == "profile"){
                             profile = node.right.value;
+                            checkedp = true;
                         }
                         if (node.left.name == "min_tls_version"){
                             version = node.right.value;
+                            checkedv = true;
                         }
                     }
                     console.log(node.parent.blocklabel.value)
                     console.log("profile :" + profile)
                     console.log("version :" + version)
+                    console.log("checked : " + checkedp + checkedv)
                     
+                    /*
                     if (node.left.name == "min_tls_version") {
                         if (node.right.value == "TLS1_0" ||
                             node.right.value === "TLS1_1" ||
@@ -31,9 +38,16 @@ export const encryptedConnections = createRule({
                             node.right.value === "TLS_1_1") {
                             context.report(node, "Insecure TLS version")
                         };
-                    }
+                    }*/
                 }
+                if (func(profile, version, checkedp, checkedv)){
+                    context.report(node, "Insecure TLS version")
+
+                }
+                console.log()
+                
             }
+            
         }
     },
     name: 'encrypted_connections',
@@ -52,3 +66,9 @@ export const encryptedConnections = createRule({
     },
     defaultOptions: [],
 });
+
+var func = (profile: string, version: string, checkedp: boolean, checkedv: boolean) => {
+    if ((version == "TLS1_0" || version == "TLS1_1" || version == "TLS_1_1" || version == "TLS_1_0" || version == null) && (profile == null || profile == 'COMPATIBLE' || profile == 'MODERN') && (checkedp && checkedv)){
+        return true;
+    }
+};
