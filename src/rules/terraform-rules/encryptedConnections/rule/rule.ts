@@ -1,74 +1,75 @@
 import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
-import { profileEnd } from "console";
+import { isIdentifier } from "../../../../utils/ast/guards";
 import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
 
 const createRule = RuleCreator(resolveDocsRoute);
 
 //TODO: include or not include "default"/not specified. 
 
-export const encryptedConnections = createRule({
-    create(context: any) {
-        let profile: string;
-        let version: string;
-        let checkedp: boolean;
-        let checkedv: boolean;
-        return {
-            AssignmentExpression(node: any) {
-                if (node.operator === '=') {
-                    if (node.parent.blocklabel.value == "google_compute_ssl_policy"){
-                        if (node.left.name == "profile"){
-                            profile = node.right.value;
-                            checkedp = true;
-                        }
-                        if (node.left.name == "min_tls_version"){
-                            version = node.right.value;
-                            checkedv = true;
-                        }
-                    }
-                    console.log(node.parent.blocklabel.value)
-                    console.log("profile :" + profile)
-                    console.log("version :" + version)
-                    console.log("checked : " + checkedp + checkedv)
-                    
-                    /*
-                    if (node.left.name == "min_tls_version") {
-                        if (node.right.value == "TLS1_0" ||
-                            node.right.value === "TLS1_1" ||
-                            node.right.value === "TLS_1_0" ||
-                            node.right.value === "TLS_1_1") {
-                            context.report(node, "Insecure TLS version")
-                        };
-                    }*/
-                }
-                if (func(profile, version, checkedp, checkedv)){
-                    context.report(node, "Insecure TLS version")
+export enum MessageIds {
+    FOUND_VARIABLE = "found-variable",
+    FIX_VARIABLE = "fix-variable",
+}
+type MyRuleOptions = [{ variableName: string }];
 
-                }
-                console.log()
-                
-            }
-            
+
+export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
+  name: "my-rule",
+  defaultOptions: [{ variableName: "TLS_1_2" }],
+  meta: {
+    type: "problem",
+    fixable: "code",
+    messages: {
+      [MessageIds.FOUND_VARIABLE]: `Variable "{{ variableName }}" is not named correctly.`,
+      [MessageIds.FIX_VARIABLE]: `Rename "{{ orgName }}" to "{{ newName }}"`,
+    },
+    docs: {
+      description: "blabla",
+      recommended: "error",
+      suggestion: true,
+    },
+    hasSuggestions: true,
+    schema: [],
+  },
+  create: (context, [{ variableName }]) => {
+    return {
+      Identifier: (node) => {
+        console.log(node);
+      },
+
+      AssignmentExpression: (node: any) => {
+        // In case the variable does not have an id that is an identifier
+        // (defensive programming) or if the variable already has the correct
+        // name, then we can bail out early.
+        if (node.left.name == "min_tls_version") {
+          if (!(node.right.value == "TLS_1_2")){
+            context.report({
+                node: node,
+                messageId: MessageIds.FOUND_VARIABLE,
+                data: {
+                  variableName: node.right.value
+                },
+                suggest: [
+                  {
+                    messageId: MessageIds.FIX_VARIABLE,
+                    data: {
+                      orgName: node.right.value,
+                      newName: variableName,
+                    },
+                    fix: function(fixer) {
+                      console.log("right : " + node.right)
+                      console.log("varname : " + variableName)
+                      console.log(fixer.replaceText(node.right, variableName))
+                      return fixer.replaceText(node.right, variableName);
+                    },
+                  },
+                ],
+              });
+
+          }
         }
-    },
-    name: 'encrypted_connections',
-    meta: {
-        docs: {
-            description: 'TLS-1.0 and TLS-1.1 is deprecated. Use TLS-1.2 or above',
-            recommended: 'error'
-        },
-        messages: {
-            error: 'TLS-1.0 and TLS-1.1 is deprecated'
-        },
-        type: 'problem',
-        fixable: 'code',
-        hasSuggestions: true,
-        schema: [],
-    },
-    defaultOptions: [],
-});
 
-var func = (profile: string, version: string, checkedp: boolean, checkedv: boolean) => {
-    if ((version == "TLS1_0" || version == "TLS1_1" || version == "TLS_1_1" || version == "TLS_1_0" || version == null) && (profile == null || profile == 'COMPATIBLE' || profile == 'MODERN') && (checkedp && checkedv)){
-        return true;
-    }
-};
+      },
+    };
+  },
+});

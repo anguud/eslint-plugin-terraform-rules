@@ -11,8 +11,8 @@ export const hardcodedCredentials = createRule({
                     if (node.left.property){
                         if (node.left.property.name == "password" || node.left.property.name == "username" ) { //does it matter if how the lefter property is spelled? So no need to be strict. but should ignore casing.
                             if (node.right.property.type.isStringLiteral){
-                                    context.report(node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC, "Do not include hard coded credentials")
-                                };
+                               
+                            };
 
                         }
                         
@@ -28,7 +28,8 @@ export const hardcodedCredentials = createRule({
             recommended: 'error'
         },
         messages: {
-            error: 'Do not include hard coded credentials'
+            error: 'enable logs in backend severices'
+
         },
         type: 'problem',
         fixable: 'code',

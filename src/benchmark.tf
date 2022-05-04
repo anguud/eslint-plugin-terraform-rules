@@ -64,7 +64,6 @@ resource "google_compute_region_backend_service" "bad_example" {
 resource "google_compute_region_backend_service" "vulnerable_to_educate" {
   name                            = "logging-test"
   region                          = "us-central1"
-  health_checks                   = [google_compute_region_health_check.region.id]
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"
   load_balancing_scheme           = "EXTERNAL"
@@ -74,7 +73,6 @@ resource "google_compute_region_backend_service" "vulnerable_to_educate" {
 resource "google_compute_region_backend_service" "withlogs" {
   name                            = "logging-test"
   region                          = "us-central1"
-  health_checks                   = [google_compute_region_health_check.region.id]
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"
   load_balancing_scheme           = "EXTERNAL"
