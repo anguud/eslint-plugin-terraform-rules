@@ -1,4 +1,7 @@
-import {createRule} from 
+import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
+import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
+
+const createRule = RuleCreator(resolveDocsRoute);
 
 export const enableLog = createRule({
     create (context: any) {
@@ -20,5 +23,20 @@ export const enableLog = createRule({
                 }
             }
         }
-    }
+    },
+    name: 'enable_log',
+    meta: {
+        docs: {
+            description: 'enable logs in backend severices',
+            recommended: 'error'
+        },
+        messages: {
+            error: 'enable logs in backend severices'
+        },
+        type: 'problem',
+        fixable: 'code',
+        hasSuggestions: true,
+        schema: [], 
+    },
+    defaultOptions: [],
 });

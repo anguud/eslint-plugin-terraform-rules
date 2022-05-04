@@ -1,11 +1,11 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
-import rule from '../rule/rule';
+import {noPublicAccess } from '../rule/rule';
 
 const ruleTester = new ESLintUtils.RuleTester( {
     parser: 'tf-parser'
 });
 
-ruleTester.run('noPublicAccess',rule,{
+ruleTester.run('noPublicAccess',noPublicAccess,{
     valid: [
         { code: "NOT SURE" }, 
     ],

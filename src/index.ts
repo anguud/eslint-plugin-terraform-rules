@@ -26,10 +26,10 @@ export const configs = {
     plugins: ["terraform-rules"],
     rules: {
       "terraform-rules/test-rule": ["error"],
-      "terraform-rules/test-rule/enableLogging/rule/rule": ["error"],
-      "terraform-rules/test-rule/encryptedConnections/rule/rule": ["error"],
-      "terraform-rules/test-rule/hardCodedCredentials/rule/rule": ["error"],
-      "terraform-rules/test-rule/noPublicAccess/rule/rule": ["error"]
+      "terraform-rules/enableLogging": ["error"],
+      "terraform-rules/encryptedConnections": ["error"],
+      "terraform-rules/hardCodedCredentials": ["error"],
+      "terraform-rules/noPublicAccess": ["error"]
   },
 },
 }
