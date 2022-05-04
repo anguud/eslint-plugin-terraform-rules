@@ -9,27 +9,13 @@ export const encryptedConnections = createRule({
         return {
             AssignmentExpression(node: any) {
                 if (node.operator === '=') {
-                    console.log('if it is equal')
-                    console.log(node.left)
-                    console.log(node.type)
-                    console.log(node.name)
-                    console.log(node.right.value)
-                    if (node.type == 'Identifier' && node.name == 'min_tls_version') {
-                        console.log('identifier + mintæe-s')
-                        if (node.right.value === 'TLS_1_0'){
-                            console.log('Youre a god damn genious')
-                        }/*
-                        console.log('if left exist')
-                        if (node.left.property.name == 'min_tls_version') { //does it matter if how the lefter property is spelled? So no need to be strict. but should ignore casing.
-                            console.log('if min tls')
-                            if (node.right.property.name === "TLS1_0" ||
-                                node.right.property.name === "TLS1_1" ||
-                                node.right.property.name === "TLS_1_0" ||
-                                node.right.property.name === "TLS_1_1") {
-                                    console.log('if include vulnerablity')
-                                context.report(node, "Unsecure TLS version")
-                            };
-                        }*/ 
+                    if (node.left.name == "min_tls_version") {
+                        if (node.right.value == "TLS1_0" ||
+                            node.right.value === "TLS1_1" ||
+                            node.right.value === "TLS_1_0" ||
+                            node.right.value === "TLS_1_1") {
+                            context.report(node, "Insecure TLS version")
+                        };
                     }
                 }
             }
@@ -47,7 +33,7 @@ export const encryptedConnections = createRule({
         type: 'problem',
         fixable: 'code',
         hasSuggestions: true,
-        schema: [], 
+        schema: [],
     },
     defaultOptions: [],
 });
