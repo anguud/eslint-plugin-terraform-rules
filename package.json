@@ -32,7 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "@typescript-eslint/scope-manager": "^5.15.0",
-    "eslint": "^8.11.0",
+    "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-comment-length": "^0.5.1",
     "eslint-plugin-import": "^2.25.4",
@@ -52,5 +52,17 @@
     "enhanced-resolve": "^5.9.2",
     "eslint-plugin-terraform-rules": "file:./",
     "tf-parser": "file:../Terraform-ESLint-parser/parserTS"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anguud/eslint-plugin-terraform-rules.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/anguud/eslint-plugin-terraform-rules/issues"
+  },
+  "homepage": "https://github.com/anguud/eslint-plugin-terraform-rules#readme"
 }
