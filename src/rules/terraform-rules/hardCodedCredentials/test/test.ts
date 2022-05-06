@@ -1,10 +1,10 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import {hardcodedCredentials} from '../rule/rule';
 
+/*
 const ruleTester = new ESLintUtils.RuleTester( {
     parser: 'tf-parser'
 });
-/*
 
 ruleTester.run('encryptedConnection',hardcodedCredentials,{
     valid: [

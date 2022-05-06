@@ -15,7 +15,7 @@ type MyRuleOptions = [{ variableName: string }];
 
 export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
   name: "my-rule",
-  defaultOptions: [{ variableName: "TLS_1_2" }],
+  defaultOptions: [{ variableName: "\"TLS_1_2\"" }],
   meta: {
     type: "problem",
     fixable: "code",
@@ -56,10 +56,12 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
                       orgName: node.right.value,
                       newName: variableName,
                     },
-                    fix: function(fixer) {
+                    fix(fixer) {
                       console.log("right : " + node.right)
                       console.log("varname : " + variableName)
                       console.log(fixer.replaceText(node.right, variableName))
+                      console.log("Bjørn")
+
                       return fixer.replaceText(node.right, variableName);
                     },
                   },

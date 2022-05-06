@@ -1,6 +1,6 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import {noPublicAccess } from '../rule/rule';
-
+/*
 const ruleTester = new ESLintUtils.RuleTester( {
     parser: 'tf-parser'
 });
@@ -14,3 +14,4 @@ ruleTester.run('noPublicAccess',noPublicAccess,{
         { code: "value = ::/0", errors: [{messageId: "error"}] },
         { code: "value = default", errors: [{messageId: "error"}] }]
 });
+*/

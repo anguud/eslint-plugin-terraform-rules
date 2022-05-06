@@ -1,10 +1,10 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import { encryptedConnections } from '../rule/rule';
 
+/*s
 const ruleTester = new ESLintUtils.RuleTester( {
     parser: 'tf-parser'
 });
-/*
 ruleTester.run('encryptedConnection',encryptedConnections,{
     valid: [
         { code: "min_tls_version = TLS_1_2" }, // escape quotations... 
