@@ -4,11 +4,13 @@ import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
 
 const createRule = RuleCreator(resolveDocsRoute);
 
+
+
 //TODO: include or not include "default"/not specified. 
 
 export enum MessageIds {
-    FOUND_VARIABLE = "found-variable",
-    FIX_VARIABLE = "fix-variable",
+  FOUND_VARIABLE = "found-variable",
+  FIX_VARIABLE = "fix-variable",
 }
 type MyRuleOptions = [{ variableName: string }];
 
@@ -32,44 +34,62 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
     schema: [],
   },
   create: (context, [{ variableName }]) => {
+    let profile: string;
+    let version: string;
+    let isProfile: boolean;
+    let isVersion: boolean;
+    let checkedp: boolean;
+    let checkedv: boolean;
     return {
       Identifier: (node) => {
-        console.log(node);
+        console.log("HERE GOES THE FIRST " + node.name)
+        if (node.name == "profile") {
+          isProfile = true;
+        }
+        if (node.name == "min_tls_version") {
+          isVersion = true;
+        }
       },
 
       AssignmentExpression: (node: any) => {
         // In case the variable does not have an id that is an identifier
         // (defensive programming) or if the variable already has the correct
         // name, then we can bail out early.
-        if (node.left.name == "min_tls_version") {
-          if (!(node.right.value == "TLS_1_2")){
+        console.log(func(profile, version, isProfile, isVersion))
+          if (func(profile, version, isProfile, isVersion)) {
             context.report({
-                node: node,
-                messageId: MessageIds.FOUND_VARIABLE,
-                data: {
-                  variableName: node.right.value
-                },
-                suggest: [
-                  {
-                    messageId: MessageIds.FIX_VARIABLE,
-                    data: {
-                      orgName: node.right.value,
-                      newName: variableName,
-                    },
-                    fix: function(fixer) {
-                      console.log("right : " + node.right)
-                      console.log("varname : " + variableName)
-                      console.log(fixer.replaceText(node.right, variableName))
-                      return fixer.replaceText(node.right, variableName);
-                    },
+              node: node,
+              messageId: MessageIds.FOUND_VARIABLE,
+              data: {
+                variableName: node.right.value
+              },
+              suggest: [
+                {
+                  messageId: MessageIds.FIX_VARIABLE,
+                  data: {
+                    orgName: node.right.value,
+                    newName: variableName,
                   },
-                ],
-              });
+                  fix: function (fixer) {
+                    return fixer.replaceText(node.right, variableName);
+                  },
+                },
+              ],
+            });
 
           }
-        }
+        
 
       },
     };
   },
+
+
 });
+
+var func = (profile: string, version: string, isProfile: boolean, isVersion: boolean) => {
+  if ((version == "TLS1_0" || version == "TLS1_1" || version == "TLS_1_1" || version == "TLS_1_0" || isVersion == false) && (isProfile == false || profile == 'COMPATIBLE' || profile == 'MODERN')) {
+    return true;
+  }
+  return false;
+};
