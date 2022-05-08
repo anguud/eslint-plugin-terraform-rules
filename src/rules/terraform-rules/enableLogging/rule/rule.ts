@@ -1,8 +1,10 @@
-import { isStringLiteral } from "typescript";
-import {createRule} from 
+import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
+import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
 
-export const rule = createRule({
-    create (context) {
+const createRule = RuleCreator(resolveDocsRoute);
+
+export const enableLog = createRule({
+    create (context: any) {
         return {
             AssignmentExpression(node : any){
                 if (node.operator === '='){
@@ -21,5 +23,20 @@ export const rule = createRule({
                 }
             }
         }
-    }
+    },
+    name: 'enable_log',
+    meta: {
+        docs: {
+            description: 'enable logs in backend severices',
+            recommended: 'error'
+        },
+        messages: {
+            error: 'enable logs in backend severices'
+        },
+        type: 'problem',
+        fixable: 'code',
+        hasSuggestions: true,
+        schema: [], 
+    },
+    defaultOptions: [],
 });

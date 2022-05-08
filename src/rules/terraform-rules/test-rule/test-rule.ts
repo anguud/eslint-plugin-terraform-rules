@@ -1,6 +1,4 @@
-
-
-const testRule = {
+export const testRule = {
     create(_context: any) {
       return {
         Identifier(node: any) {
@@ -10,7 +8,5 @@ const testRule = {
       };
     },
   }
-
 ;
 
-export {testRule}

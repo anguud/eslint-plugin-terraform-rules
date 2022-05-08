@@ -1,32 +1,17 @@
-import { myRule } from "./rules/terraform-rules/my-rule/_rule";
 import { testRule } from "./rules/terraform-rules/test-rule/test-rule";
-import { testRule2 } from "./rules/terraform-rules/test-rule2/test-rule2";
-import {dummyRule } from "./rules/terraform-rules/dummy/_rule";
-import { encryptedConnection } from "./rules/terraform-rules/Encrypted_Connections/_rule";
+import { enableLog } from "./rules/terraform-rules/enableLogging/rule/rule";
+import { encryptedConnections } from "./rules/terraform-rules/encryptedConnections/rule/rule";
+import { hardcodedCredentials } from "./rules/terraform-rules/hardCodedCredentials/rule/rule";
+import { noPublicAccess } from "./rules/terraform-rules/noPublicAccess/rule/rule";
 
-// const myRule = require("./rules/terraform-rules/my-rule/_rule")
-// const encryptedConnection = require("./rules/terraform-rules/Encrypted_Connections/_rule")
-// const dummyRule = require("./rules/terraform-rules/dummy/_rule")
-// const testRule = require("./rules/terraform-rules/test-rule/test-rule")
-// const testRule2 = require("./rules/terraform-rules/test-rule2/testRule2")
-
-// module.exports = {
-//   rules: {
-//     "my-rule": require("./rules/terraform-rules/my-rule/_rule"),
-//     "encrypted_Connections": require("./rules/terraform-rules/Encrypted_Connections/_rule"),
-//     "dummy": require("./rules/terraform-rules/dummy/_rule"),
-//     "test-rule": require("./rules/terraform-rules/test-rule/test-rule"),
-//     "testRule2": require("./rules/terraform-rules/test-rule2/test-rule2")
-//     // new rules goes here
-// }
-// }; 
 
 export const rules = {
-  "my-rule": myRule,
-  "encrypted_Connections": encryptedConnection,
-  "dummy": dummyRule,
   "test-rule": testRule,
-  "testRule2": testRule2
+  "enableLogging": enableLog,
+  "encryptedConnections": encryptedConnections,
+  "hardCodedCredentials": hardcodedCredentials,
+  "noPublicAccess": noPublicAccess,  
+
   // new rules goes here
 }
 
@@ -40,11 +25,11 @@ export const configs = {
   terraform: {
     plugins: ["terraform-rules"],
     rules: {
-      "terraform-rules/my-rule": ["error"],
-      "terraform-rules/encrypted_Connections": ["error"],
-      "terraform-rules/dummy": ["error"],
       "terraform-rules/test-rule": ["error"],
-      "terraform-rules/testRule2": ["error"],
+      "terraform-rules/enableLogging": ["error"],
+      "terraform-rules/encryptedConnections": ["error"],
+      "terraform-rules/hardCodedCredentials": ["error"],
+      "terraform-rules/noPublicAccess": ["error"]
   },
 },
 }

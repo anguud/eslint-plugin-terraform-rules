@@ -1,15 +1,22 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.enable": true,
   "editor.formatOnSave": false,
   "eslint.debug": true,
   "eslint.validate": [
     "javascript",
     "javascriptreact",
     "typescript",
+    "terraform",
     "typescriptreact"
   ],
   "eslint.onIgnoredFiles": "warn",
   "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "[terraform]": {
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     }
