@@ -1,11 +1,12 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
-import rule from '../rule/rule';
+import {hardcodedCredentials} from '../rule/rule';
 
+/*
 const ruleTester = new ESLintUtils.RuleTester( {
     parser: 'tf-parser'
 });
 
-ruleTester.run('encryptedConnection',rule,{
+ruleTester.run('encryptedConnection',hardcodedCredentials,{
     valid: [
         { code: "NOT SURE" }, 
     ],
@@ -13,4 +14,4 @@ ruleTester.run('encryptedConnection',rule,{
         { code: "password = changemelater", errors: [{messageId: "error"}] },
         { code: "username = some@email.com", errors: [{messageId: "error"}] },
         { code: "password = 12345678", errors: [{messageId: "error"}] }]
-});
+});*/
