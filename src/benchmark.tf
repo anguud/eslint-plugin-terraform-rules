@@ -1,4 +1,3 @@
-//EncryptedConnections
 
 resource "google_compute_ssl_policy" "vulnerable_example1" { 
               name = "production-ssl-policy"
@@ -11,7 +10,6 @@ resource "google_compute_ssl_policy" "vulnerable_example2" {
               profile = "MODERN"
               min_tls_version = "TLS_1_0"
 }
-
 resource "google_compute_ssl_policy" "safe_example" { 
               name = "production-ssl-policy"
               profile = "RESTRICTED"
@@ -21,10 +19,9 @@ resource "google_compute_ssl_policy" "safe_example" {
 resource "google_compute_ssl_policy" "best_example" { 
               name = "production-ssl-policy"
               profile = "RESTRICTED"
-              min_tls_version = "TLS_1_2"
+              min_tls_version = "TLS_1_0"
 }
 
-// noPublicAccess
 
 resource "google_sql_database_instance" "postgres" {
     name                = "postgress-db-instance"
@@ -45,12 +42,11 @@ resource "google_sql_database_instance" "postgres" {
 }
 
 
-//enableLogging
 
 resource "google_compute_region_backend_service" "bad_example" {
   name                            = "logging-test"
   region                          = "us-central1"
-  health_checks                   = [google_compute_region_health_check.region.id]
+  health_checks                   = ["google_compute_region_health_check"]
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"
   load_balancing_scheme           = "EXTERNAL"
@@ -83,16 +79,14 @@ resource "google_compute_region_backend_service" "withlogs" {
   }
 }
 
-//hardCodedCredentials
-// https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_connection
 
 resource "google_bigquery_connection" "vulnerable" {
     provider      = google-beta
     friendly_name = "bigquery-connection"
     description   = "a riveting description"
     cloud_sql {
-        instance_id = google_sql_database_instance.instance.connection_name
-        database    = google_sql_database.db.name
+        instance_id = "google_sql_database_instance.instance.connection_name"
+        database    = "google_sql_database.db.name"
         type        = "POSTGRES"
         credential {
           username = "name@email.com"

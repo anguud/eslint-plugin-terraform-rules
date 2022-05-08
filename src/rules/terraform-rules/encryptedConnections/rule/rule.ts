@@ -12,17 +12,17 @@ export enum MessageIds {
   FOUND_VARIABLE = "found-variable",
   FIX_VARIABLE = "fix-variable",
 }
-type MyRuleOptions = [{ variableName: string }];
+type MyRuleOptions = [{ tls: string, pro: string }];
 
 
 export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
   name: "my-rule",
-  defaultOptions: [{ variableName: "TLS_1_2" }],
+  defaultOptions: [{ tls: "\"TLS_1_2\"", pro: "\"RESTRICTED\"" }],
   meta: {
     type: "problem",
     fixable: "code",
     messages: {
-      [MessageIds.FOUND_VARIABLE]: `Variable "{{ variableName }}" is not named correctly.`,
+      [MessageIds.FOUND_VARIABLE]: `Variable "{{ variableName }}" is not named correctly!!!.`,
       [MessageIds.FIX_VARIABLE]: `Rename "{{ orgName }}" to "{{ newName }}"`,
     },
     docs: {
@@ -33,54 +33,74 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
     hasSuggestions: true,
     schema: [],
   },
-  create: (context, [{ variableName }]) => {
+  create: (context, [{ tls, pro }]) => {
     let profile: string;
     let version: string;
     let isProfile: boolean;
     let isVersion: boolean;
-    let checkedp: boolean;
-    let checkedv: boolean;
+    let indexp: number;
+    let indexv: number;
     return {
-      Identifier: (node) => {
-        console.log("HERE GOES THE FIRST " + node.name)
-        if (node.name == "profile") {
-          isProfile = true;
-        }
-        if (node.name == "min_tls_version") {
-          isVersion = true;
-        }
-      },
+      ResourceBlockStatement: (node: any) => {
+        if (node.blocklabel.value == "google_compute_ssl_policy") {
+          let counter: number = 0;
+          node.body.forEach( (argument: any)  => {
+            if (argument.left.name == "profile") {
+              profile = argument.right.value;
+              indexp = counter;
+              isProfile = true;
+            }
+            if (argument.left.name == "min_tls_version") {
+              version = argument.right.value;
+              indexv = counter;
+              isVersion = true;
+            }
+            counter++;
+          });
+          console.log(node);
 
-      AssignmentExpression: (node: any) => {
-        // In case the variable does not have an id that is an identifier
-        // (defensive programming) or if the variable already has the correct
-        // name, then we can bail out early.
-        console.log(func(profile, version, isProfile, isVersion))
+          console.log("HERE sTHE DATE " + profile, version, isProfile, isVersion)
+          console.log(func(profile, version, isProfile, isVersion))
           if (func(profile, version, isProfile, isVersion)) {
+            console.log("ORIIII " +pro)
+
             context.report({
-              node: node,
+              node: node.body[indexv].right,
               messageId: MessageIds.FOUND_VARIABLE,
               data: {
-                variableName: node.right.value
+                variableName: node.body[indexv].right.value,
               },
               suggest: [
                 {
                   messageId: MessageIds.FIX_VARIABLE,
                   data: {
-                    orgName: node.right.value,
-                    newName: variableName,
+                    orgName: node.body[indexv].right.value,
+                    newName: tls,
                   },
                   fix: function (fixer) {
-                    return fixer.replaceText(node.right, variableName);
+                    return fixer.replaceText(node.body[indexv].right, tls);
+                  },
+                },
+                {
+                  messageId: MessageIds.FIX_VARIABLE,
+                  data: {
+                    orgName: node.body[indexp].right.value,
+                    newName: pro,
+                  },
+                  fix: function (fixer) {
+                    return fixer.replaceText(node.body[indexp].right, pro);
                   },
                 },
               ],
+              
             });
-
+  
           }
-        
+          
+        }
 
       },
+
     };
   },
 
