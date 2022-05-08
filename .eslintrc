@@ -13,5 +13,6 @@
     "terraform-rules"
   ],
   "parser": "tf-parser", // Set this parser.
-  "extends": "plugin:terraform-rules/terraform"
+  "extends": "plugin:terraform-rules/terraform",
+  "ignorePatterns": ["*.js", "*.ts"]
 }
