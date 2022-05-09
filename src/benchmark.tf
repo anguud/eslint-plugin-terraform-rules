@@ -2,15 +2,14 @@
 resource "google_compute_ssl_policy" "vulnerable_example1" { 
               name = "production-ssl-policy"
               profile = "COMPATIBLE"
-              min_tls_version = "TLS_1_2"
+              min_tls_version = "TLS_1_0"
 }
 
 resource "google_compute_ssl_policy" "vulnerable_example2" { 
               name = "production-ssl-policy"
               profile = "MODERN"
-              min_tls_version = "TLS_1_2"
+              min_tls_version = "TLS_1_0"
 }
-
 resource "google_compute_ssl_policy" "safe_example" { 
               name = "production-ssl-policy"
               profile = "RESTRICTED"
@@ -20,7 +19,7 @@ resource "google_compute_ssl_policy" "safe_example" {
 resource "google_compute_ssl_policy" "best_example" { 
               name = "production-ssl-policy"
               profile = "RESTRICTED"
-              min_tls_version = "TLS_1_2"
+              min_tls_version = "TLS_1_0"
 }
 
 
