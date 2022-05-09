@@ -15,6 +15,7 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc --project ./tsconfig.build.json",
     "llm": "rm -rf ./lib && tsc --project ./tsconfig.build.json && npm i && eslint src/test.tf",
+    "test:log": "rm -rf ./lib && tsc --project ./tsconfig.build.json && npm i && eslint src/logTest.tf",
     "watch": "yarn build --watch",
     "eslint:files": "eslint",
     "lint": "eslint src/test.tf --rulesdir src/rules/terraform-rules",

@@ -33,9 +33,7 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
   },
   create: (context, [{ variableName }]) => {
     return {
-      Identifier: (node) => {
-        console.log(node);
-      },
+     
 
       AssignmentExpression: (node: any) => {
         // In case the variable does not have an id that is an identifier
@@ -57,11 +55,7 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
                       newName: variableName,
                     },
                     fix(fixer) {
-                      console.log("right : " + node.right)
-                      console.log("varname : " + variableName)
-                      console.log(fixer.replaceText(node.right, variableName))
-                      console.log("Bjørn")
-
+                 
                       return fixer.replaceText(node.right, variableName);
                     },
                   },
