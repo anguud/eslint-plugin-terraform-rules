@@ -36,15 +36,15 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
   create: (context, [{ tls, pro }]) => {
     let profile: string;
     let version: string;
-    let isProfile: boolean;
-    let isVersion: boolean;
-    let indexp: number;
-    let indexv: number;
+    let isProfile: boolean = false;
+    let isVersion: boolean = false;
+    let indexp: number = -1;
+    let indexv: number = -1;
     return {
       ResourceBlockStatement: (node: any) => {
         if (node.blocklabel.value == "google_compute_ssl_policy") {
           let counter: number = 0;
-          node.body.forEach( (argument: any)  => {
+          node.body.forEach((argument: any) => {
             if (argument.left.name == "profile") {
               profile = argument.right.value;
               indexp = counter;
@@ -62,41 +62,93 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
           console.log("HERE sTHE DATE " + profile, version, isProfile, isVersion)
           console.log(func(profile, version, isProfile, isVersion))
           if (func(profile, version, isProfile, isVersion)) {
-            console.log("ORIIII " +pro)
+            console.log("ORIIII " + node.body[indexv]?.right)
+            console.log("indez v " + (indexv == -1))
+            console.log("indez p " + (indexp == -1))
+            console.log
 
-            context.report({
-              node: node.body[indexv].right,
-              messageId: MessageIds.FOUND_VARIABLE,
-              data: {
-                variableName: node.body[indexv].right.value,
-              },
-              suggest: [
-                {
-                  messageId: MessageIds.FIX_VARIABLE,
-                  data: {
-                    orgName: node.body[indexv].right.value,
-                    newName: tls,
-                  },
-                  fix: function (fixer) {
-                    return fixer.replaceText(node.body[indexv].right, tls);
-                  },
+            if (indexp == -1) {
+              context.report({
+                node: node.body[indexv].right,
+                messageId: MessageIds.FOUND_VARIABLE,
+                data: {
+                  variableName: node.body[indexv].right.value,
                 },
-                {
-                  messageId: MessageIds.FIX_VARIABLE,
-                  data: {
-                    orgName: node.body[indexp].right.value,
-                    newName: pro,
+                suggest: [
+                  {
+                    messageId: MessageIds.FIX_VARIABLE,
+                    data: {
+                      orgName: node.body[indexv].right.value,
+                      newName: tls,
+                    },
+                    fix: function (fixer) {
+                      return fixer.replaceText(node.body[indexv].right, tls);
+                    },
                   },
-                  fix: function (fixer) {
-                    return fixer.replaceText(node.body[indexp].right, pro);
-                  },
+                ],
+
+              });
+
+            }
+            if (indexv == -1) {
+              context.report({
+                node: node.body[indexp]?.right,
+                messageId: MessageIds.FOUND_VARIABLE,
+                data: {
+                  variableName: node.body[indexp]?.right.value,
                 },
-              ],
-              
-            });
-  
-          }
+                suggest: [
+                  {
+                    messageId: MessageIds.FIX_VARIABLE,
+                    data: {
+                      orgName: node.body[indexp]?.right.value,
+                      newName: pro,
+                    },
+                    fix: function (fixer) {
+                      return fixer.replaceText(node.body[indexp].right, pro);
+                    },
+                  },
+                ],
+
+              });
+
+            }
+            if ((indexv != -1) && (indexp != -1)) {
+              context.report({
+                node: node.body[indexv]?.right,
+                messageId: MessageIds.FOUND_VARIABLE,
+                data: {
+                  variableName: node.body[indexv]?.right.value,
+                },
+                suggest: [
+                  {
+                    messageId: MessageIds.FIX_VARIABLE,
+                    data: {
+                      orgName: node.body[indexv]?.right.value,
+                      newName: tls,
+                    },
+                    fix: function (fixer) {
+                      return fixer.replaceText(node.body[indexv].right, tls);
+                    },
+                  },
+                  {
+                    messageId: MessageIds.FIX_VARIABLE,
+                    data: {
+                      orgName: node.body[indexp]?.right.value,
+                      newName: pro,
+                    },
+                    fix: function (fixer) {
+                      return fixer.replaceText(node.body[indexp].right, pro);
+                    },
+                  },
+                ],
+
+              });
+
+            }
           
+          }
+
         }
 
       },
@@ -108,7 +160,7 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
 });
 
 var func = (profile: string, version: string, isProfile: boolean, isVersion: boolean) => {
-  if ((version == "TLS1_0" || version == "TLS1_1" || version == "TLS_1_1" || version == "TLS_1_0" || isVersion == false) && (isProfile == false || profile == 'COMPATIBLE' || profile == 'MODERN')) {
+  if ((version == "TLS_1_1" || version == "TLS_1_0" || isVersion == false) && (isProfile == false || profile == 'COMPATIBLE' || profile == 'MODERN')) {
     return true;
   }
   return false;
