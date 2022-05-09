@@ -4,8 +4,6 @@ import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
 
 const createRule = RuleCreator(resolveDocsRoute);
 
-
-
 //TODO: include or not include "default"/not specified. 
 
 export enum MessageIds {
@@ -36,18 +34,29 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
   create: (context, [{ tls, pro }]) => {
     let profile: string;
     let version: string;
-    let isProfile: boolean = false;
-    let isVersion: boolean = false;
-    let indexp: number = -1;
-    let indexv: number = -1;
     return {
       ResourceBlockStatement: (node: any) => {
+        console.log("NEEEEWWW NOOOODDEEEE SSSTAAAARTTSS HEEEREEE " + node);
+        let isProfile: boolean = false;
+        let isVersion: boolean = false;
+        let indexp: number = -1;
+        let indexv: number = -1;
+
+
         if (node.blocklabel.value == "google_compute_ssl_policy") {
+          console.log("INDEX V" + indexv);
+          console.log("INDEX P" + indexp);
+
           let counter: number = 0;
+
           node.body.forEach((argument: any) => {
+            console.log("INDEX V argu" + indexv);
+            console.log("INDEX P argu" + indexp);
             if (argument.left.name == "profile") {
               profile = argument.right.value;
+              console.log("index 1 " + indexp);
               indexp = counter;
+              console.log("index 2 " + indexp)
               isProfile = true;
             }
             if (argument.left.name == "min_tls_version") {
@@ -57,10 +66,10 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
             }
             counter++;
           });
-          console.log(node);
 
-          console.log("HERE sTHE DATE " + profile, version, isProfile, isVersion)
-          console.log(func(profile, version, isProfile, isVersion))
+          console.log("INDEX V 3rd " + indexv);
+          console.log("INDEX P 3rd " + indexp);
+
           if (func(profile, version, isProfile, isVersion)) {
             console.log("ORIIII " + node.body[indexv]?.right)
             console.log("indez v " + (indexv == -1))
@@ -92,16 +101,16 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
             }
             if (indexv == -1) {
               context.report({
-                node: node.body[indexp]?.right,
+                node: node.body[indexp].right,
                 messageId: MessageIds.FOUND_VARIABLE,
                 data: {
-                  variableName: node.body[indexp]?.right.value,
+                  variableName: node.body[indexp].right.value,
                 },
                 suggest: [
                   {
                     messageId: MessageIds.FIX_VARIABLE,
                     data: {
-                      orgName: node.body[indexp]?.right.value,
+                      orgName: node.body[indexp].right.value,
                       newName: pro,
                     },
                     fix: function (fixer) {
@@ -115,7 +124,7 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
             }
             if ((indexv != -1) && (indexp != -1)) {
               context.report({
-                node: node.body[indexv]?.right,
+                node: node.body[indexv].right,
                 messageId: MessageIds.FOUND_VARIABLE,
                 data: {
                   variableName: node.body[indexv]?.right.value,
@@ -124,7 +133,7 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
                   {
                     messageId: MessageIds.FIX_VARIABLE,
                     data: {
-                      orgName: node.body[indexv]?.right.value,
+                      orgName: node.body[indexv].right.value,
                       newName: tls,
                     },
                     fix: function (fixer) {
@@ -134,7 +143,7 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
                   {
                     messageId: MessageIds.FIX_VARIABLE,
                     data: {
-                      orgName: node.body[indexp]?.right.value,
+                      orgName: node.body[indexp].right.value,
                       newName: pro,
                     },
                     fix: function (fixer) {
