@@ -33,4 +33,3 @@ resource "google_compute_region_backend_service" "scenario3 - compliant" {
     enable = true
   }
 }
-
