@@ -5,36 +5,71 @@ const createRule = RuleCreator(resolveDocsRoute);
 
 
 export const noPublicAccess = createRule({
-    create (context : any) {
+    create(context: any) {
         return {
-            AssignmentExpression(node : any){
-                if (node.operator === '='){
-                    if (node.left.property){
-                        if (node.left.property.name === "value" || node.left.property.name === "network") { 
-                            if (node.parentNode?.nodeName === "authorized_networks"){
-                                if (node.nodeValue === "0.0.0.0/0" || node.nodeValue === "::/0" || node.nodeValue === "default"){
-                                    context.report(node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC, "DB exposed to public")
-                                }
+            ResourceBlockStatement(node: any) {
+                if (node.blocklabel.value === "google_sql_database_instance") {
+                    node.body.forEach((argument: any) => {
+                        if (argument.type === "TFBlock") {
+                            if (argument.name === "settings") {
+                                argument.body.forEach((BlockNode: any) => {
+                                    if (BlockNode.type === "TFBlock") {
+                                        if (BlockNode.name === "ip_configuration") {
+                                            BlockNode.body.forEach((element: any) => {
+                                                if (element.type === "TFBlock") {
+                                                    if (element.name === "authorized_networks") {
+                                                        element.body.forEach((argument: any)=> {
+                                                            if (argument.type === "AssignmentExpression"){
+                                                                if (argument.left.name === "value") {
+                                                                    if (argument.right.type === "StringLiteral") {
+                                                                        if (argument.right.value === "::/0" || argument.right.value === "0.0.0.0/0") {
+                                                                            context.report({
+                                                                                node: argument.right,
+                                                                                messageId: "public_access_found",
+                                                                                suggest: [
+                                                                                    {
+                                                                                        messageId: "public_access_fix",
+                                                                                        fix: function (fixer: any) {
+                                                                                            return fixer.remove(element);
+                                                                                        },
+                                                                                    },
+                                                                                ],
+                                                                            })
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                            }
+                                                        });
+                                                    }
+
+                                                }
+                                            });
+                                        }
+                                    }
+                                })
+
                             }
                         }
-                    }
+                    });
                 }
-            }
+            },
         }
     },
-    name: 'no_public_access',
+    name: 'no_hard_coded_credentials',
     meta: {
         docs: {
-            description: 'Default ip addresses are unsafe and allows for public access. Unsafe for database instances',
+            description: 'Do not allow pubic access to database instance',
             recommended: 'error'
         },
         messages: {
-            error: 'Unsafe for database instances to use default IP-addresses'
+            "public_access_found": 'Public access to database should not be allowed. Deletion of this is recommended. Specify specific ip instead',
+            "public_access_fix": "Remove public access to database instance ",
         },
         type: 'problem',
         fixable: 'code',
         hasSuggestions: true,
-        schema: [], 
+        schema: [],
     },
     defaultOptions: [],
 });
