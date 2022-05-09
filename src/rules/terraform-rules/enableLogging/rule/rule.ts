@@ -39,7 +39,6 @@ export const enableLog = createRule<MyRuleOptions,MessageIds>({
                     var hasLogConfig: boolean = false
                     node.body.forEach((argument: any) => {
                         if (argument.type === "TFBlock") {
-                            console.log("TFBlock")
                             if (argument.name === "log_config") {
                                 hasLogConfig = true
                                 argument.body.forEach((BlockNode: any) => {
