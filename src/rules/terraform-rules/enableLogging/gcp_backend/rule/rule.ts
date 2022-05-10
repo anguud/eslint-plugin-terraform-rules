@@ -78,7 +78,7 @@ export const gcp_backend_enableLog = createRule<MyRuleOptions,MessageIds>({
                     });
                     if (!hasLogConfig){
                         context.report({
-                            node: node,
+                            node: node.blocklabel,
                             messageId: MessageIds.NO_LOG_FOUND,
                             suggest: [
                                 {
