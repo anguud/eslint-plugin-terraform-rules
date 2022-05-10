@@ -47,4 +47,8 @@ resource "google_sql_database_instance" "scenario3 - compliant" {
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/db_public_access
