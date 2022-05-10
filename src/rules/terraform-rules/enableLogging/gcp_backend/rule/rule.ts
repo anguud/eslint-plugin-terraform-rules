@@ -1,5 +1,5 @@
 import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
-import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
+import { resolveDocsRoute } from "../../../../../utils/resolve-docs-route";
 
 const createRule = RuleCreator(resolveDocsRoute);
 
@@ -12,11 +12,11 @@ export enum MessageIds {
 type MyRuleOptions = []; //NO CLUE 
 
 
-export const enableLog = createRule<MyRuleOptions,MessageIds>({
+export const gcp_backend_enableLog = createRule<MyRuleOptions,MessageIds>({
     name: 'enable_log',
     meta: {
         docs: {
-            description: "Logging should be enabled for resource: google_compute_region_backend_service {{ blocklable2 }}",
+            description: "Logging should be enabled for resource: google_compute_backend_service {{ blocklable2 }}",
             recommended: 'error',
             suggestion: true,
         },
@@ -35,7 +35,7 @@ export const enableLog = createRule<MyRuleOptions,MessageIds>({
     create(context: any) {
         return {
             ResourceBlockStatement(node: any) {
-                if (node.blocklabel.value === "google_compute_region_backend_service") {
+                if (node.blocklabel.value === "google_compute_backend_service") {
                     var hasLogConfig: boolean = false
                     node.body.forEach((argument: any) => {
                         if (argument.type === "TFBlock") {
