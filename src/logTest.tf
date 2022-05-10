@@ -10,6 +10,7 @@ resource "google_compute_region_backend_service" "example" {
     enable = false
   }
 }
+
 resource "google_compute_region_backend_service" "example" {
   name                            = "example"
   region                          = "us-central1"
