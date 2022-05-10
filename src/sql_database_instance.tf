@@ -110,8 +110,21 @@ resource "google_sql_database_instance" "scenario6 - noncompliant" {
             } 
         }
     }
-}
 
+}
+resource "google_sql_database_instance" "scenario6 - noncompliant" {
+    name                = "production-db-instance"
+    database_version    = "POSTGRES"
+    settings {
+        tier = "db-f1-micro"
+        ip_configuration {
+            authorized_networks {
+                value           = var.publicIP.value
+                name            = "internet"
+            } 
+        }
+    }
+}
 
 resource "google_sql_database_instance" "scenario7 - compliant" {
     name                = "production-db-instance"
@@ -129,4 +142,8 @@ resource "google_sql_database_instance" "scenario7 - compliant" {
             }
         }
     }
+}
+
+var "publicIP" {
+    value = "0.0.0.0/0"
 }
