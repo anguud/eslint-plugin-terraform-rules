@@ -1,4 +1,3 @@
-
 resource "google_compute_backend_service" "scenario1 - noncompliant" {
   name                            = "backend-production"
   connection_draining_timeout_sec = 10
