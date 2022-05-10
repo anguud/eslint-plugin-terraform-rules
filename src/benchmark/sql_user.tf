@@ -21,6 +21,6 @@ resource "google_sql_user" "scenario4 - compliant" {
   instance = google_sql_database_instance.main.name
 }
 
-var "password" { 
+variable "password" { 
     name = "change-me-later"
 }

@@ -45,6 +45,6 @@ resource "google_compute_ssl_policy" "scenario8 - compliant" {
               min_tls_version = var.deprecated_tls.name
 }
 
-var "deprecated_tls" { 
+variable "deprecated_tls" { 
     name = "TLS_1_1"
 }

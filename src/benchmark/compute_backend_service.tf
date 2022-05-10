@@ -27,7 +27,7 @@ resource "google_compute_backend_service" "scenario3 - noncompliant" {
   protocol                        = "HTTPS"
 }
 
-resource "google_compute_backend_service" "scenario3 - compliant" {
+resource "google_compute_backend_service" "scenario4 - compliant" {
   name                            = "backend-production"
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"

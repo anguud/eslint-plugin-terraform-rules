@@ -5,7 +5,7 @@ resource "google_sql_database_instance" "scenario1 - noncompliant" {
     settings {
         tier = "db-f1-micro"
         backup_configuration {
-          enable = false
+          enabled = false
         }
         ip_configuration {
             require_ssl = false
@@ -27,7 +27,7 @@ resource "google_sql_database_instance" "scenario2 - noncompliant" {
     settings {
         tier = "db-f1-micro"
         backup_configuration {
-          enable = true
+          enabled = true
         }
         ip_configuration {
             require_ssl = true
@@ -50,7 +50,7 @@ resource "google_sql_database_instance" "scenario3 - noncompliant" {
     settings {
         tier = "db-f1-micro"
         backup_configuration {
-          enable = true
+          enabled = true
         }
         ip_configuration {
             require_ssl = false
@@ -86,7 +86,7 @@ resource "google_sql_database_instance" "scenario5 - noncompliant" {
     settings {
         tier = "db-f1-micro"
         backup_configuration {
-          enable = true
+          enabled = true
         }
         ip_configuration {
             require_ssl = true
@@ -98,20 +98,7 @@ resource "google_sql_database_instance" "scenario5 - noncompliant" {
     }
 }
 
-resource "google_sql_database_instance" "scenario6 - noncompliant" {
-    name                = "production-db-instance"
-    database_version    = "POSTGRES"
-    settings {
-        tier = "db-f1-micro"
-        ip_configuration {
-            authorized_networks {
-                value           = "108.12.12.0/24"
-                name            = "internet"
-            } 
-        }
-    }
 
-}
 resource "google_sql_database_instance" "scenario6 - noncompliant" {
     name                = "production-db-instance"
     database_version    = "POSTGRES"
@@ -126,24 +113,39 @@ resource "google_sql_database_instance" "scenario6 - noncompliant" {
     }
 }
 
-resource "google_sql_database_instance" "scenario7 - compliant" {
+resource "google_sql_database_instance" "scenario7 - noncompliant" {
+    name                = "production-db-instance"
+    database_version    = "POSTGRES"
+    settings {
+        tier = "db-f1-micro"
+        ip_configuration {
+            require_ssl = true
+            authorized_networks {
+                value           = var.publicIP.value
+                name            = "internet"
+            } 
+        }
+    }
+}
+
+resource "google_sql_database_instance" "scenario8 - compliant" {
     name                = "production-db-instance"
     database_version    = "POSTGRES"
     settings {
         tier = "db-f1-micro"
         backup_configuration {
-          enable = true
+          enabled = true
         }
         ip_configuration {
             require_ssl = true
             authorized_networks {
-                value           = "108.12.12.0/24"
+                value           = "158.12.12.0/24"
                 name            = "internal"
             }
         }
     }
 }
 
-var "publicIP" {
+variable "publicIP" {
     value = "0.0.0.0/0"
 }
