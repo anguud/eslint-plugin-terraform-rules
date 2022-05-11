@@ -86,7 +86,7 @@ resource "google_sql_database_instance" "scenario5 - noncompliant" {
     settings {
         tier = "db-f1-micro"
         backup_configuration {
-          enabled = true
+          enabled = false
         }
         ip_configuration {
             require_ssl = true
