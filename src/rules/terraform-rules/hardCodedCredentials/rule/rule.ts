@@ -3,22 +3,50 @@ import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
 
 const createRule = RuleCreator(resolveDocsRoute);
 
-export const hardcodedCredentials = createRule({
-    create (context: any) {
-        return {
-            AssignmentExpression(node : any){
-                if (node.operator === '='){
-                    if (node.left.property){
-                        if (node.left.property.name == "password" || node.left.property.name == "username" ) { //does it matter if how the lefter property is spelled? So no need to be strict. but should ignore casing.
-                            if (node.right.property.type.isStringLiteral){
-                               
-                            };
 
+export const hardcodedCredentials = createRule({
+    create(context: any) {
+        return {
+            ResourceBlockStatement(node: any) {
+                if (node.blocklabel.value === "google_bigquery_connection") {
+                    node.body.forEach((argument: any) => {
+                        if (argument.type === "TFBlock") {
+                            if (argument.name.avlue === "cloud_sql") {
+                                argument.body.forEach((BlockNode: any) => {
+                                    if (BlockNode.type === "TFBlock") {
+                                        if (BlockNode.name.value === "credential") {
+                                            BlockNode.body.forEach((element: any) => {
+                                                if (element.type === "AssignmentExpression") {
+                                                    if (element.left.type === "Identifier") {
+                                                        if (element.left.name === "password") {
+                                                            if (element.right.type === "StringLiteral") {
+                                                                context.report({
+                                                                    node: element.right,
+                                                                    messageId: "hardcoded_credentials_found",
+                                                                    suggest: [
+                                                                        {
+                                                                            messageId: "hardcoded_credentials_fix",
+                                                                            fix: function (fixer: any) {
+                                                                                return fixer.remove(element.right);
+                                                                            },
+                                                                        },
+                                                                    ],
+                                                                })
+                                                            }
+                                                        }
+                                                    }
+
+                                                }
+                                            });
+                                        }
+                                    }
+                                })
+
+                            }
                         }
-                        
-                    }
+                    });
                 }
-            }
+            },
         }
     },
     name: 'no_hard_coded_credentials',
@@ -28,13 +56,15 @@ export const hardcodedCredentials = createRule({
             recommended: 'error'
         },
         messages: {
-            error: 'enable logs in backend severices'
-
+            "hardcoded_credentials_found": 'Credentials should not be hardcoded into source code',
+            "hardcoded_credentials_fix": "No autofix for this. Remove hardcoded credentials",
+            "insert_credentials": "Missing credentials block",
+            "start_credentials_block": "Insert outline for credentialsblock",
         },
         type: 'problem',
         fixable: 'code',
         hasSuggestions: true,
-        schema: [], 
+        schema: [],
     },
     defaultOptions: [],
 });

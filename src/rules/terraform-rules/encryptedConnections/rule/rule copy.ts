@@ -17,10 +17,25 @@ export const encryptedConnections = createRule({
     create(context: any) {
         let profile: string;
         let version: string;
+        let isProfile: boolean = false;
+        let isVersion: boolean = false;
         let checkedp: boolean;
         let checkedv: boolean;
+        
         return {
             AssignmentExpression(node: any) {
+                var body = node.body;
+                body.forEach((node: { left: { name: string; }; right: { value: string; }; }) => {
+                    if(node.left.name == "profile"){
+                        isProfile = true;
+                        profile = node.right.value;
+                    }
+                    if (node.left.name == "min_tls_version"){
+                        isVersion = true;
+                        version = node.right.value;
+                    }
+                    
+                });
                 if (node.operator === '=') {
                     if (node.parent.blocklabel.value == "google_compute_ssl_policy"){
                         if (node.left.name == "profile"){
@@ -41,10 +56,7 @@ export const encryptedConnections = createRule({
                 if (func(profile, version, checkedp, checkedv)){
 
                 }
-                
-                
             }
-            
         }
     },
     name: 'encrypted_connections',
@@ -64,8 +76,8 @@ export const encryptedConnections = createRule({
     defaultOptions: [],
 });
 
-var func = (profile: string, version: string, checkedp: boolean, checkedv: boolean) => {
-    if ((version == "TLS1_0" || version == "TLS1_1" || version == "TLS_1_1" || version == "TLS_1_0" || version == null) && (profile == null || profile == 'COMPATIBLE' || profile == 'MODERN') && (checkedp && checkedv)){
+var func = (profile: string, version: string, isProfile: boolean, isVersion: boolean) => {
+    if ((version == "TLS1_0" || version == "TLS1_1" || version == "TLS_1_1" || version == "TLS_1_0" || isVersion == false) && (isProfile == false || profile == 'COMPATIBLE' || profile == 'MODERN') ){
         return true;
     }
 };

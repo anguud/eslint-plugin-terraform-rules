@@ -1,16 +1,24 @@
-import { testRule } from "./rules/terraform-rules/test-rule/test-rule";
-import { enableLog } from "./rules/terraform-rules/enableLogging/rule/rule";
+import { gcp_region_backend_enableLog } from "./rules/terraform-rules/enableLogging/gcp_region_backend/rule/rule";
+import { gcp_backend_enableLog } from "./rules/terraform-rules/enableLogging/gcp_backend/rule/rule";
 import { encryptedConnections } from "./rules/terraform-rules/encryptedConnections/rule/rule";
+import { enableBackup } from "./rules/terraform-rules/enableBackup/rule/rule";
 import { hardcodedCredentials } from "./rules/terraform-rules/hardCodedCredentials/rule/rule";
+import { credentialrule } from "./rules/terraform-rules/credentials/rule/rule";
 import { noPublicAccess } from "./rules/terraform-rules/noPublicAccess/rule/rule";
-
+import { require_ssl } from "./rules/terraform-rules/require_ssl/rule/rule";
+import { noHTTPInBackendService } from "./rules/terraform-rules/noHTTPInBackendService/rule/rule";
 
 export const rules = {
-  "test-rule": testRule,
-  "enableLogging": enableLog,
+  "gcpRegionEnableLogging": gcp_region_backend_enableLog,
+  "gcpEnableLogging": gcp_backend_enableLog,
+  "enableBackup": enableBackup,
   "encryptedConnections": encryptedConnections,
   "hardCodedCredentials": hardcodedCredentials,
   "noPublicAccess": noPublicAccess,  
+  "credentialrule": credentialrule,  
+  "require_ssl": require_ssl,  
+  "noHTTPInBackendService": noHTTPInBackendService 
+
 
   // new rules goes here
 }
@@ -25,11 +33,16 @@ export const configs = {
   terraform: {
     plugins: ["terraform-rules"],
     rules: {
-      "terraform-rules/test-rule": ["error"],
-      "terraform-rules/enableLogging": ["error"],
+      "terraform-rules/enableBackup": ["error"],
+      "terraform-rules/gcpRegionEnableLogging": ["error"],
+      "terraform-rules/gcpEnableLogging": ["error"],
       "terraform-rules/encryptedConnections": ["error"],
       "terraform-rules/hardCodedCredentials": ["error"],
-      "terraform-rules/noPublicAccess": ["error"]
+      "terraform-rules/noPublicAccess": ["error"],
+      "terraform-rules/credentialrule": ["error"],
+      "terraform-rules/require_ssl": ["error"],
+      "terraform-rules/noHTTPInBackendService": ["error"]
+      
   },
 },
 }
