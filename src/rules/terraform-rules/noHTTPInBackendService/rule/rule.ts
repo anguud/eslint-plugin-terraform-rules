@@ -8,12 +8,14 @@ export const noHTTPInBackendService = createRule({
     create(context: any) {
         return {
             ResourceBlockStatement(node: any) {
+                var hasProtocol = false;
                 if (node.blocklabel.value === "google_compute_backend_service") {
                     node.body.forEach((argument: any) => {
                         if (argument.type === "AssignmentExpression") {
                             if (argument.operator === "=") {
                                 if (argument.left.type === "Identifier") {
                                     if (argument.left.name === "protocol") {
+                                        hasProtocol = true;
                                         if (argument.right.type === "StringLiteral") {
                                             if (argument.right.value === "HTTP"){
                                                 context.report({
@@ -35,6 +37,21 @@ export const noHTTPInBackendService = createRule({
                             }
                         }
                     });
+                    if(!hasProtocol) {
+                        context.report({
+                            node: node.blocklabel,
+                            messageId: "no_HTTP_found",
+                            suggest: [
+                                {
+                                    messageId: "no_HTTP_fix",
+                                    fix: function (fixer: any ) {
+                                        let HTTPSProtocol = `\n\tprotocol                        = "HTTPS"\n`
+                                        return fixer.insertTextAfter(node.body[node.body.length -1], HTTPSProtocol);
+                                    },
+                                },
+                            ],
+                        })
+                    }
                 }
             },
         }
@@ -48,8 +65,8 @@ export const noHTTPInBackendService = createRule({
         messages: {
             "HTTP_found": 'Protocol should not allow HTTP connection.',
             "HTTP_fix": "No autofix for this. Remove hardcoded credentials",
-            "insert_credentials": "Missing credentials block",
-            "start_credentials_block": "Insert outline for credentialsblock",
+            "no_HTTP_found": "Resource has no declared protocol, defaualt value when undeclared is HTTP.\nUse HTTPS or different Protocol",
+            "no_HTTP_fix": "Insert HTTPS protocol",
         },
         type: 'problem',
         fixable: 'code',

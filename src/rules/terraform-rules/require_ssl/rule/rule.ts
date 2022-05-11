@@ -59,7 +59,7 @@ export const require_ssl = createRule({
                                                         {
                                                             messageId: "no_ssl_fix",
                                                             fix: function (fixer: any ) {
-                                                                let enableLogging = `require_ssl = false \n \t\t\t`
+                                                                let enableLogging = `require_ssl = false \n\t  `
                                                                 return fixer.insertTextBefore(node.body[settingsIndex].body[ip_cofigIndex].body[0], enableLogging);
                                                             },
                                                         },
