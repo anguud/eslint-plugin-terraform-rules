@@ -4,6 +4,7 @@ import { encryptedConnections } from "./rules/terraform-rules/encryptedConnectio
 import { hardcodedCredentials } from "./rules/terraform-rules/hardCodedCredentials/rule/rule";
 import { credentialrule } from "./rules/terraform-rules/credentials/rule/rule";
 import { noPublicAccess } from "./rules/terraform-rules/noPublicAccess/rule/rule";
+import { require_ssl } from "./rules/terraform-rules/require_ssl/rule/rule";
 
 
 export const rules = {
@@ -13,6 +14,7 @@ export const rules = {
   "hardCodedCredentials": hardcodedCredentials,
   "noPublicAccess": noPublicAccess,  
   "credentialrule": credentialrule,  
+  "require_ssl": require_ssl,  
 
   // new rules goes here
 }
@@ -32,7 +34,9 @@ export const configs = {
       "terraform-rules/encryptedConnections": ["error"],
       "terraform-rules/hardCodedCredentials": ["error"],
       "terraform-rules/noPublicAccess": ["error"],
-      "terraform-rules/credentialrule": ["error"]
+      "terraform-rules/credentialrule": ["error"],
+      "terraform-rules/require_ssl": ["error"]
+      
   },
 },
 }
