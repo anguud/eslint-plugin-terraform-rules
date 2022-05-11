@@ -39,7 +39,7 @@ export const gcp_backend_enableLog = createRule<MyRuleOptions,MessageIds>({
                     var hasLogConfig: boolean = false
                     node.body.forEach((argument: any) => {
                         if (argument.type === "TFBlock") {
-                            if (argument.name === "log_config") {
+                            if (argument.name.value === "log_config") {
                                 hasLogConfig = true
                                 argument.body.forEach((BlockNode: any) => {
                                     if (BlockNode.type === "AssignmentExpression") {
