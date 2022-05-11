@@ -11,7 +11,7 @@ export const hardcodedCredentials = createRule({
                 if (node.blocklabel.value === "google_bigquery_connection") {
                     node.body.forEach((argument: any) => {
                         if (argument.type === "TFBlock") {
-                            if (argument.name.avlue === "cloud_sql") {
+                            if (argument.name.value === "cloud_sql") {
                                 argument.body.forEach((BlockNode: any) => {
                                     if (BlockNode.type === "TFBlock") {
                                         if (BlockNode.name.value === "credential") {
