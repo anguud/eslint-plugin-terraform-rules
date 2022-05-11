@@ -2,6 +2,7 @@ import { gcp_region_backend_enableLog } from "./rules/terraform-rules/enableLogg
 import { gcp_backend_enableLog } from "./rules/terraform-rules/enableLogging/gcp_backend/rule/rule";
 import { encryptedConnections } from "./rules/terraform-rules/encryptedConnections/rule/rule";
 import { hardcodedCredentials } from "./rules/terraform-rules/hardCodedCredentials/rule/rule";
+import { credentialrule } from "./rules/terraform-rules/credentials/rule/rule";
 import { noPublicAccess } from "./rules/terraform-rules/noPublicAccess/rule/rule";
 
 
@@ -11,6 +12,7 @@ export const rules = {
   "encryptedConnections": encryptedConnections,
   "hardCodedCredentials": hardcodedCredentials,
   "noPublicAccess": noPublicAccess,  
+  "credentialrule": credentialrule,  
 
   // new rules goes here
 }
@@ -29,7 +31,8 @@ export const configs = {
       "terraform-rules/gcpEnableLogging": ["error"],
       "terraform-rules/encryptedConnections": ["error"],
       "terraform-rules/hardCodedCredentials": ["error"],
-      "terraform-rules/noPublicAccess": ["error"]
+      "terraform-rules/noPublicAccess": ["error"],
+      "terraform-rules/credentialrule": ["error"]
   },
 },
 }
