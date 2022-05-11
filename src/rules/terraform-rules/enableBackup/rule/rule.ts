@@ -11,20 +11,25 @@ export enum MessageIds {
 }
 
 
-export const noPublicAccess = createRule({
+export const enableBackup = createRule({
     create(context: any) {
         return {
             ResourceBlockStatement(node: any) {
                 if (node.blocklabel.value === "google_sql_database_instance") {
+                    var hasBackupConfig : boolean = false
+                    var sql_body_counter = 0;
                     node.body.forEach((argument: any) => {
                         if (argument.type === "TFBlock") {
                             if (argument.name === "settings") {
+                                var settingsIndex = sql_body_counter
                                 argument.body.forEach((BlockNode: any) => {
                                     if (BlockNode.type === "TFBlock") {
                                         if (BlockNode.name === "backup_configuration") {
+                                            hasBackupConfig = true
                                             BlockNode.body.forEach((argument: any) => {
                                                 if (argument.type === "AssignmentExpression") {
                                                     if (argument.left.name === "enabled") {
+                                                        (argument.right.type === "Identifier")
                                                         if (argument.right.type === "Identifier") {
                                                             if (argument.right.name !== "true") {
                                                                 context.report({
@@ -38,13 +43,13 @@ export const noPublicAccess = createRule({
                                                                                 right: argument.left.name
                                                                             },
                                                                             fix: function (fixer: { replaceText: (arg0: any, arg1: string) => any; }) {
-                                                                                return fixer.replaceText(BlockNode.right, "true");
+                                                                                return fixer.replaceText(argument.right, "true");
                                                                             },
                                                                         },
                                                                     ],
                                                                 })
                                                             }
-        
+
                                                         }
                                                     }
 
@@ -54,10 +59,27 @@ export const noPublicAccess = createRule({
                                         }
                                     }
                                 })
+                                if (!hasBackupConfig){
+                                    context.report({
+                                        node: node.blocklabel,
+                                        messageId: MessageIds.NO_BACKUP_FOUND,
+                                        suggest: [
+                                            {
+                                                messageId: MessageIds.NO_BACKUP_FIX,
+                                                fix: function (fixer: { insertTextAfter: (arg0: any, arg1: string) => any; }) {
+                                                    let enableBackup = `\n\n \tbackup_configuration {\n   \t \tenabled = true\n  \t}`
+                                                    return fixer.insertTextAfter(node.body[settingsIndex].body[node.body[settingsIndex].body.length-1], enableBackup);
+                                                },
+                                            },
+                                        ],
+                                    })
+                                }
 
                             }
                         }
+                        sql_body_counter++
                     });
+                    
                 }
             },
         }

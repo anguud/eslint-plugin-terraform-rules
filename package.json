@@ -14,9 +14,9 @@
   ],
   "scripts": {
     "build": "rm -rf ./lib && tsc --project ./tsconfig.build.json",
-    "llm": "rm -rf ./lib && tsc --project ./tsconfig.build.json && npm i && eslint src/test.tf",
-    "test:log": "rm -rf ./lib && tsc --project ./tsconfig.build.json && npm i && eslint src/logTest.tf",
-    "test:cred": "rm -rf ./lib && tsc --project ./tsconfig.build.json && npm i && eslint src/credentialTest.tf",
+    "llm": "rm -rf ./lib && tsc --project ./tsconfig.build.json && npm i && eslint src/benchmark/sql_database_instance.tf ",
+    "test:log": "rm -rf ./lib && tsc --project ./tsconfig.build.json && npm i && eslint src/benchmark/logTest.tf",
+    "test:cred": "rm -rf ./lib && tsc --project ./tsconfig.build.json && npm i && eslint src/benchmark/credentialTest.tf",
     "watch": "yarn build --watch",
     "eslint:files": "eslint",
     "lint": "eslint src/test.tf --rulesdir src/rules/terraform-rules",
