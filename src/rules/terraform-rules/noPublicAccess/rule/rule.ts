@@ -11,13 +11,13 @@ export const noPublicAccess = createRule({
                 if (node.blocklabel.value === "google_sql_database_instance") {
                     node.body.forEach((argument: any) => {
                         if (argument.type === "TFBlock") {
-                            if (argument.name === "settings") {
+                            if (argument.name.value === "settings") {
                                 argument.body.forEach((BlockNode: any) => {
                                     if (BlockNode.type === "TFBlock") {
-                                        if (BlockNode.name === "ip_configuration") {
+                                        if (BlockNode.name.value === "ip_configuration") {
                                             BlockNode.body.forEach((element: any) => {
                                                 if (element.type === "TFBlock") {
-                                                    if (element.name === "authorized_networks") {
+                                                    if (element.name.value === "authorized_networks") {
                                                         element.body.forEach((argument: any)=> {
                                                             if (argument.type === "AssignmentExpression"){
                                                                 if (argument.left.name === "value") {
