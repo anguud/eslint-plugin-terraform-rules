@@ -106,7 +106,7 @@ resource "google_sql_database_instance" "scenario6 - noncompliant" {
     tier = "db-f1-micro"
     ip_configuration {
       authorized_networks {
-        value = var.publicIP.value
+        value = var.publicIP
         name  = "internet"
       }
     }
@@ -121,7 +121,7 @@ resource "google_sql_database_instance" "scenario7 - noncompliant" {
     ip_configuration {
       require_ssl = true
       authorized_networks {
-        value = var.publicIP.value
+        value = var.publicIP
         name  = "internet"
       }
     }
@@ -147,5 +147,5 @@ resource "google_sql_database_instance" "scenario8 - compliant" {
 }
 
 variable "publicIP" {
-  value = "0.0.0.0/0"
+  type = string
 }

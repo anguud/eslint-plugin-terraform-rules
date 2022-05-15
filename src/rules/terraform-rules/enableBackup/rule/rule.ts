@@ -20,11 +20,11 @@ export const enableBackup = createRule({
                     var sql_body_counter = 0;
                     node.body.forEach((argument: any) => {
                         if (argument.type === "TFBlock") {
-                            if (argument.name === "settings") {
+                            if (argument.name.value === "settings") {
                                 var settingsIndex = sql_body_counter
                                 argument.body.forEach((BlockNode: any) => {
                                     if (BlockNode.type === "TFBlock") {
-                                        if (BlockNode.name === "backup_configuration") {
+                                        if (BlockNode.name.value === "backup_configuration") {
                                             hasBackupConfig = true
                                             BlockNode.body.forEach((argument: any) => {
                                                 if (argument.type === "AssignmentExpression") {

@@ -23,7 +23,7 @@ resource "google_compute_ssl_policy" "scenario4 - noncompliant" {
 resource "google_compute_ssl_policy" "scenario5 - noncompliant" { 
               name = "production-ssl-policy"
               profile = "COMPATIBLE"
-              min_tls_version = var.deprecated_tls.name
+              min_tls_version = var.deprecated_tls
 }
 
 resource "google_compute_ssl_policy" "scenario6 - compliant" { 
@@ -42,9 +42,9 @@ resource "google_compute_ssl_policy" "scenario7 - compliant" {
 resource "google_compute_ssl_policy" "scenario8 - compliant" { 
               name = "production-ssl-policy"
               profile = "RESTRICTED"
-              min_tls_version = var.deprecated_tls.name
+              min_tls_version = var.deprecated_tls
 }
 
 variable "deprecated_tls" { 
-    name = "TLS_1_1"
+    type = string
 }

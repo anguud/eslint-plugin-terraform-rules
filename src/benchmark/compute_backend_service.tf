@@ -15,8 +15,6 @@ resource "google_compute_backend_service" "scenario2 - noncompliant" {
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"
   load_balancing_scheme           = "EXTERNAL"
-  //Default value is HTTP
-  //"Ensure That App Engine Applications Enforce HTTPS Connections"
 }
 
 resource "google_compute_backend_service" "scenario3 - noncompliant" {
@@ -24,7 +22,7 @@ resource "google_compute_backend_service" "scenario3 - noncompliant" {
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"
   load_balancing_scheme           = "EXTERNAL"
-  protocol                        = "HTTPS"
+  protocol                        = "HTTP"
 }
 
 resource "google_compute_backend_service" "scenario4 - compliant" {
@@ -33,8 +31,9 @@ resource "google_compute_backend_service" "scenario4 - compliant" {
   session_affinity                = "CLIENT_IP"
   load_balancing_scheme           = "EXTERNAL"
   protocol                        = "HTTPS"
-
+  
   log_config {
     enable = true
   }
+
 }
