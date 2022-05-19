@@ -159,5 +159,8 @@ var func = (profile: string, version: string, isProfile: boolean, isVersion: boo
   if ((version == "TLS_1_1" || version == "TLS_1_0" || isVersion == false) && (isProfile == false || profile == 'COMPATIBLE' || profile == 'MODERN')) {
     return true;
   }
+  if (version == "TLS_1_2" && (isProfile == false || profile == 'COMPATIBLE')){
+    return true;
+  }
   return false;
 };
