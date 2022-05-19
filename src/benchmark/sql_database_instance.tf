@@ -1,5 +1,5 @@
 
-resource "google_sql_database_instance" "scenario1 - noncompliant" {
+resource "google_sql_database_instance" "scenario1-noncompliant" {
   name             = "production-db-instance"
   database_version = "POSTGRES"
   settings {
@@ -21,7 +21,7 @@ resource "google_sql_database_instance" "scenario1 - noncompliant" {
   }
 }
 
-resource "google_sql_database_instance" "scenario2 - noncompliant" {
+resource "google_sql_database_instance" "scenario2-noncompliant" {
   name             = "production-db-instance"
   database_version = "POSTGRES"
   settings {
@@ -44,7 +44,7 @@ resource "google_sql_database_instance" "scenario2 - noncompliant" {
 }
 
 
-resource "google_sql_database_instance" "scenario3 - noncompliant" {
+resource "google_sql_database_instance" "scenario3-noncompliant" {
   name             = "production-db-instance"
   database_version = "POSTGRES"
   settings {
@@ -62,7 +62,7 @@ resource "google_sql_database_instance" "scenario3 - noncompliant" {
   }
 }
 
-resource "google_sql_database_instance" "scenario4 - noncompliant" {
+resource "google_sql_database_instance" "scenario4-noncompliant" {
   name             = "production-db-instance"
   database_version = "POSTGRES"
   settings {
@@ -80,7 +80,7 @@ resource "google_sql_database_instance" "scenario4 - noncompliant" {
   }
 }
 
-resource "google_sql_database_instance" "scenario5 - noncompliant" {
+resource "google_sql_database_instance" "scenario5-noncompliant" {
   name             = "production-db-instance"
   database_version = "POSTGRES"
   settings {
@@ -99,7 +99,7 @@ resource "google_sql_database_instance" "scenario5 - noncompliant" {
 }
 
 
-resource "google_sql_database_instance" "scenario6 - noncompliant" {
+resource "google_sql_database_instance" "scenario6-noncompliant" {
   name             = "production-db-instance"
   database_version = "POSTGRES"
   settings {
@@ -113,7 +113,7 @@ resource "google_sql_database_instance" "scenario6 - noncompliant" {
   }
 }
 
-resource "google_sql_database_instance" "scenario7 - noncompliant" {
+resource "google_sql_database_instance" "scenario7-noncompliant" {
   name             = "production-db-instance"
   database_version = "POSTGRES"
   settings {
@@ -128,7 +128,7 @@ resource "google_sql_database_instance" "scenario7 - noncompliant" {
   }
 }
 
-resource "google_sql_database_instance" "scenario8 - compliant" {
+resource "google_sql_database_instance" "scenario8-compliant" {
   name             = "production-db-instance"
   database_version = "POSTGRES"
   settings {

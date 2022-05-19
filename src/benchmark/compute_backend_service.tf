@@ -1,4 +1,4 @@
-resource "google_compute_backend_service" "scenario1 - noncompliant" {
+resource "google_compute_backend_service" "scenario1-noncompliant" {
   name                            = "backend-production"
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"
@@ -17,7 +17,7 @@ resource "google_compute_backend_service" "scenario2 - noncompliant" {
   load_balancing_scheme           = "EXTERNAL"
 }
 
-resource "google_compute_backend_service" "scenario3 - noncompliant" {
+resource "google_compute_backend_service" "scenario3-noncompliant" {
   name                            = "backend-production"
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"
@@ -25,7 +25,7 @@ resource "google_compute_backend_service" "scenario3 - noncompliant" {
   protocol                        = "HTTP"
 }
 
-resource "google_compute_backend_service" "scenario4 - compliant" {
+resource "google_compute_backend_service" "scenario4-compliant" {
   name                            = "backend-production"
   connection_draining_timeout_sec = 10
   session_affinity                = "CLIENT_IP"

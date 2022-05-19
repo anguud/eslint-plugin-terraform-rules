@@ -27,7 +27,7 @@ resource "google_bigquery_connection" "scenario2" {
     }
 }
 
-resource "google_bigquery_connection" "scenario3 - " {
+resource "google_bigquery_connection" "scenario3-" {
     provider      = google-beta
     name = "bigquery-connection"
     cloud_sql {
