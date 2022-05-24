@@ -7,12 +7,12 @@ This project was written as part of a master thesis at the IT University of Cope
 This should be considered a work in progress and is not meant for commercial use.
 
 
-## Installation
+# Installation
 
 - Requires Node.js `>=14.17.0`
 - Requires ESLint `>=8`
 
-## Installation and usage 
+# Installation and usage 
 
 NB: This parser is mean to be used with the Terraform-ESLint-parser that can be found in another repo:
 https://github.com/anguud/Terraform-ESLint-parser
@@ -49,7 +49,7 @@ This ensures that the rules are only used on Terraform files (`.tf`)
 Note that in the above example configuration the Terraform-ESLint-parser has been used. Without this parser the rules won't work with Terraform.
 
 
-## IDE extension 
+# IDE extension 
 
 It is highly recomended to use this plugin with the VS Code extension ESLint. This can be found on https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
 FOr this to work the Terraform extension has to be installed and enabled aswell.
