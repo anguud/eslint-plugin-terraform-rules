@@ -48,3 +48,9 @@ This ensures that the rules are only used on Terraform files (`.tf`)
 
 Note that in the above example configuration the Terraform-ESLint-parser has been used. Without this parser the rules won't work with Terraform.
 
+
+## IDE extension 
+
+It is highly recomended to use this plugin with the VS Code extension ESLint. This can be found on https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+FOr this to work the Terraform extension has to be installed and enabled aswell.
+Finally in the ESLint extension setting add `terraform` to the array of languages IDs for which the extension should be applied.
