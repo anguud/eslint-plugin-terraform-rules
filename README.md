@@ -1,28 +1,50 @@
 <h1 align="center">eslint-plugin-terraform-rules</h1>
 
+Rules set for Terraform using the Terraform-ESLint-parser which can be found here:
+https://github.com/anguud/Terraform-ESLint-parser
 
-**NB:** This project is part of a master's thesis at the IT University of Copenhagen and it should not be used for any other purpose 
+This project was written as part of a master thesis at the IT University of Copenhagen.
+This should be considered a work in progress and is not meant for commercial use.
+
 
 ## Installation
 
-to install plugins parser and ruleset run:
+- Requires Node.js `>=14.17.0`
+- Requires ESLint `>=8`
 
-```bash
-npm i
+## Installation and usage 
+
+NB: This parser is mean to be used with the Terraform-ESLint-parser that can be found in another repo:
+https://github.com/anguud/Terraform-ESLint-parser
+
+As this is not package is not published, installation through yarn or npm is not possible. 
+Instead to include this `eslint-plugin-terraform-rules` package in a project it should be cloned or downloaded and added to the dependencies inside the `package.json` manually. 
+
+Fist clone this repo to you local machine 
+Then add the path for this repo to the dependencies in your `package.json` file 
+
+```JSONC
+
+ "dependencies": {
+    "eslint-plugin-terraform-rules": "file:../eslint-plugin.terraform-rules"
+  },
 ```
 
-## On changes to rules:
+It is recommended to add this to the an overrides configuration to the `.eslintrc` configuration: 
 
-### Rules
-
-Remember to import rules and add them to the configuration in index.ts
-
-Any changes to the terraform-rules project should be followed by the following:
-inside the terraform-rules project run:
-
-```bash
-npm run build
+```JSONC
+"overrides": [
+    {
+      "files": [
+        "*.tf"
+      ], 
+      "parser": "terraform-ESLint-parser", // Set the recommended parser.
+      "extends": "plugin:terraform-rules/terraform" // sett this rules plugin
+    }
+  ],
 ```
 
-this ensures that changes are reflected in the plugin 
+This ensures that the rules are only used on Terraform files (`.tf`)
+
+Note that in the above example configuration the Terraform-ESLint-parser has been used. Without this parser the rules won't work with Terraform.
 
