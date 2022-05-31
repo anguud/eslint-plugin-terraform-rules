@@ -1,4 +1,5 @@
 import { RuleCreator } from "@typescript-eslint/utils/dist/eslint-utils";
+import { isIdentifier } from "../../../../utils/ast/guards";
 import { resolveDocsRoute } from "../../../../utils/resolve-docs-route";
 
 const createRule = RuleCreator(resolveDocsRoute);
