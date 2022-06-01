@@ -20,11 +20,14 @@ Folder structure:
 Inside this directory, first run command: `npm i` 
 Then run command: `npm run build` 
 
-For Eslint to work inside the VS Code IDE the following needs to be installed: 
+For ESLint to work inside the VS Code IDE the following needs to be installed: 
 - Node.js `>=14.17.0`
 - ESLint `>=8`
 - Terraform extension for Visual Studio Code
 - ESLint extension for Visual Studio Code (and configuration see last section of this Readme)
+
+If ESLint extension is already installed, simply configure the settings, 
+and restart the ESLint server after running the two commands above.
 
 
 # Installation
