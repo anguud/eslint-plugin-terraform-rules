@@ -17,7 +17,8 @@ Folder structure:
     ├── Terraform_ESLint-parser       # Parser repo 
     └── eslint-plugin-terraform-rules # This project
 
-run command: `npm run build`  inside this directory. 
+Inside this directory, first run command: `npm i` 
+Then run command: `npm run build` 
 
 For Eslint to work inside the VS Code IDE the following needs to be installed: 
 - Node.js `>=14.17.0`
