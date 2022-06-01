@@ -21,7 +21,7 @@ export const credentialrule = createRule({
                                                 {
                                                     messageId: "hardcoded_credentials_fix",
                                                     fix: function (fixer: any) {
-                                                        return fixer.remove(argument.right);
+                                                        return fixer.remove(argument);
                                                     },
                                                 },
                                             ],
