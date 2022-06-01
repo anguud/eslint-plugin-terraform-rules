@@ -10,6 +10,8 @@ export enum MessageIds {
   FOUND_VARIABLE = "found-variable",
   FOUND_VARIABLE_PROFILE= "found-variable-pro",
   FIX_VARIABLE = "fix-variable",
+  FIX_INSERT_PROFILE = "fix-insert-profile",
+  FOUND_MISSING_PROFILE = "found-missing-profile"
 }
 type MyRuleOptions = [{ tls: string, pro: string }];
 
@@ -23,7 +25,10 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
     messages: {
       [MessageIds.FOUND_VARIABLE]: `Variable "{{ variableName }}" is deprecated.`,
       [MessageIds.FOUND_VARIABLE_PROFILE]: `Variable "{{ variableName }}" is unsafe.`,
+      [MessageIds.FOUND_MISSING_PROFILE]: `"{{ variableName }}" without secure profile is unsafe.`,
       [MessageIds.FIX_VARIABLE]: `Rename "{{ orgName }}" to "{{ newName }}"`,
+      [MessageIds.FIX_INSERT_PROFILE]: `Insert profile = "{{ newName }}"`,
+
     },
     docs: {
       description: "blabla",
@@ -64,6 +69,7 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
           if (func(profile, version, isProfile, isVersion)) {
 
             if (indexp == -1) {
+              if (version != "TLS_1_2"){
               context.report({
                 node: node.body[indexv].right,
                 messageId: MessageIds.FOUND_VARIABLE,
@@ -84,7 +90,28 @@ export const encryptedConnections = createRule<MyRuleOptions, MessageIds>({
                 ],
 
               });
+            } else {
+              context.report({
+                node: node.body[indexv].right,
+                messageId: MessageIds.FOUND_MISSING_PROFILE,
+                data: {
+                  variableName: node.body[indexv].right.value,
+                },
+                suggest: [
+                  {
+                    messageId: MessageIds.FIX_INSERT_PROFILE,
+                    data: {
+                      newName: pro,
+                    },
+                    fix: function (fixer) {
+                      let restricted_profile = `\n\t\t\t  profile = ` + pro
+                      return fixer.insertTextAfter(node.body[indexv], restricted_profile);
+                    },
+                  },
+                ],
 
+              });
+              }
             }
             if (indexv == -1) {
               context.report({
